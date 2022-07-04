@@ -101,13 +101,11 @@ public:
         is>>m_id;
         int NbComps = 0;
         is>>NbComps;
-        //cout<<NbComps<<endl;
         for(int j=0; j<NbComps; j++)
         {
             real coord;
             is>>coord;
             m_components.push_back(coord);
-            //cout<<coord<<endl;
         }
     }
 
@@ -163,13 +161,11 @@ public:
         is>>m_id;
         int NbComps = 0;
         is>>NbComps;
-        //cout<<NbComps<<endl;
         for(int j=0; j<NbComps; j++)
         {
             meshPoint p;
             p.read(is);
             m_components.push_back(p);
-            //p.toScreen();
         }
     }
 

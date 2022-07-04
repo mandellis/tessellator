@@ -11,11 +11,19 @@ int main()
 
     ofstream os("C:\\Work\\Repositories\\3ntr\\tessellator_build\\test\\test.txt");
     //P1.write(os);
-
+    //P2.write(os);
+    //P3.write(os);
 
     meshElement E1({P1,P2,P3},100);
     E1.write(os);
 
-    os.close();
+
+    ifstream is("C:\\Work\\Repositories\\3ntr\\tessellator_build\\test\\test.txt");
+    //meshPoint P;
+    //P.read(is);
+    meshElement e;
+    e.read(is);
+    e.toScreen();
+
     return 0;
 }

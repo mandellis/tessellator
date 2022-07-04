@@ -8,6 +8,8 @@
 //! --------
 #include <vector>
 #include <fstream>
+#include <iostream>
+using namespace std;
 
 template <class T>
 class simplex
@@ -90,8 +92,7 @@ public:
     {
         os<<m_id<<std::endl;
         os<<m_components.size()<<std::endl;
-        for(int j=0; j<NbComps()-1;j++) os<<comp(j)<<";";
-        os<<NbComps()-1<<std::endl;
+        for(int j=0; j<NbComps();j++) os<<comp(j)<<std::endl;
     }
 
     //! read
@@ -100,7 +101,22 @@ public:
         is>>m_id;
         int NbComps = 0;
         is>>NbComps;
-        for(int j=0; j<NbComps; j++) { is>>m_components[j]; }
+        //cout<<NbComps<<endl;
+        for(int j=0; j<NbComps; j++)
+        {
+            real coord;
+            is>>coord;
+            m_components.push_back(coord);
+            //cout<<coord<<endl;
+        }
+    }
+
+    //! to screen
+    void toScreen()
+    {
+        cout<<m_id<<"(";
+        for(int i=0; i<m_components.size()-1; i++) cout<<m_components[i]<<", ";
+        cout<<m_components[m_components.size()-1]<<")"<<endl;
     }
 };
 
@@ -147,12 +163,23 @@ public:
         is>>m_id;
         int NbComps = 0;
         is>>NbComps;
+        //cout<<NbComps<<endl;
         for(int j=0; j<NbComps; j++)
         {
             meshPoint p;
             p.read(is);
-            m_components[j] = p;
+            m_components.push_back(p);
+            //p.toScreen();
         }
+    }
+
+    //! to screen
+    void toScreen()
+    {
+        cout<<m_id<<endl<<"{"<<endl;
+        for(int i=0; i<m_components.size(); i++) m_components[i].toScreen();
+        cout<<"}"<<endl;
+
     }
 };
 

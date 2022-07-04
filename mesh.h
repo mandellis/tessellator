@@ -54,7 +54,7 @@ public:
     virtual void write(std::ofstream& os)=0;
 
     //! read
-    virtual simplex read(std::ifstream& is)=0;
+    virtual void read(std::ifstream& is)=0;
 };
 
 //! ----------------
@@ -95,12 +95,12 @@ public:
     }
 
     //! read
-    virtual simplex<real> read(std::ifstream& is) override
+    virtual void read(std::ifstream& is) override
     {
         is>>m_id;
-        int NbComps() = 0;
-        is>>NbComps();
-        for(int j=0; j<NbComps(); j++) { is>>m_components(j); }
+        int NbComps = 0;
+        is>>NbComps;
+        for(int j=0; j<NbComps; j++) { is>>m_components[j]; }
     }
 };
 
@@ -139,6 +139,20 @@ public:
         os<<m_id<<std::endl;
         os<<m_components.size()<<std::endl;
         for(meshPoint p : m_components) p.write(os);
+    }
+
+    //! read
+    virtual void read(std::ifstream &is) override
+    {
+        is>>m_id;
+        int NbComps = 0;
+        is>>NbComps;
+        for(int j=0; j<NbComps; j++)
+        {
+            meshPoint p;
+            p.read(is);
+            m_components[j] = p;
+        }
     }
 };
 

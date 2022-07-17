@@ -145,7 +145,7 @@ int main(int argc, char *argv[])
     case 5:
     {
         //! parse arguments "-i <input file>"
-        if(strcmp(argv[1],"-i")==0 && (strcmp(argv[3],"-ld")==0 || strcmp(argv[3],"-ad")==0))
+        if(strcmp(argv[1],"-i")==0 && (strcmp(argv[3],"-ld")==0 || strcmp(argv[3],"-ad")==0 || strcmp(argv[3],"-ir")==0))
         {
             printArgumentsOK();
 

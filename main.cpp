@@ -200,5 +200,97 @@ int main(int argc, char *argv[])
         }
     }
         break;
+
+    case 9:
+    {
+        cout<<"******"<<endl;
+        //! ----------------------------------
+        //! parse arguments "-i <input file>"
+        //! ----------------------------------
+        if(strcmp(argv[1],"-i")==0 &&
+                ((strcmp(argv[3],"-ld")==0 && strcmp(argv[5],"-ad")==0 && strcmp(argv[7],"-ir")==0) ||
+                 (strcmp(argv[3],"-ld")==0 && strcmp(argv[5],"-ir")==0 && strcmp(argv[7],"-ad")==0) ||
+                 (strcmp(argv[3],"-ad")==0 && strcmp(argv[5],"-ld")==0 && strcmp(argv[7],"-ir")==0) ||
+                 (strcmp(argv[3],"-ad")==0 && strcmp(argv[5],"-ir")==0 && strcmp(argv[7],"-ld")==0) ||
+                 (strcmp(argv[3],"-ir")==0 && strcmp(argv[5],"-ld")==0 && strcmp(argv[7],"-ad")==0) ||
+                 (strcmp(argv[3],"-ir")==0 && strcmp(argv[5],"-ad")==0 && strcmp(argv[7],"-ld")==0)
+                 )
+                )
+        {
+            printArgumentsOK();
+
+            //! --------------------------------------
+            //! generate the default output file name
+            //! --------------------------------------
+            std::string outputFile;
+            bool isDone = inputFileNameToOutputFileName(argv[2],outputFile);
+            if(!isDone) return 1;
+
+            //! --------------------------
+            //! set the linear deflection
+            //! --------------------------
+            double val = 0;
+            if(strcmp(argv[3],"-ld")==0)
+            {
+                val = std::atof(argv[4]);
+                if(val<0) { cout<<"Invalid linear deflection value"<<endl; return 1; }
+            }
+            if(strcmp(argv[5],"-ld")==0)
+            {
+                val = std::atof(argv[6]);
+                if(val<0) { cout<<"Invalid linear deflection value"<<endl; return 1; }
+            }
+            if(strcmp(argv[7],"-ld")==0)
+            {
+                val = std::atof(argv[8]);
+                if(val<0) { cout<<"Invalid linear deflection value"<<endl; return 1; }
+            }
+            mp.setLinearDeflection(val);
+
+            //! ---------------------------
+            //! set the angular deflection
+            //! ---------------------------
+            if(strcmp(argv[3],"-ad")==0)
+            {
+                val = std::atof(argv[4]);
+                if(val<0) { cout<<"Invalid angular deflection value"<<endl; return 1; }
+            }
+            if(strcmp(argv[5],"-ad")==0)
+            {
+                val = std::atof(argv[6]);
+                if(val<0) { cout<<"Invalid angular deflection value"<<endl; return 1; }
+            }
+            if(strcmp(argv[7],"-ad")==0)
+            {
+                val = std::atof(argv[8]);
+                if(val<0) { cout<<"Invalid angular deflection value"<<endl; return 1; }
+            }
+            mp.setAngularDeflection(val);
+
+            //! --------------------------
+            //! set is relative parameter
+            //! --------------------------
+            bool isRelative = true;
+            if(strcmp(argv[3],"-ir")==0)
+            {
+                if(strcmp(argv[4],"Y")!=0 && strcmp(argv[4],"N")!=0) { cout<<"Wrong is relative parameter"<<endl; return 1; }
+                isRelative = strcmp(argv[4],"Y")==0 ? true:false;
+            }
+            if(strcmp(argv[5],"-ir")==0)
+            {
+                if(strcmp(argv[6],"Y")!=0 && strcmp(argv[6],"N")!=0) { cout<<"Wrong is relative parameter"<<endl; return 1; }
+                isRelative = strcmp(argv[6],"Y")==0 ? true:false;
+            }
+            if(strcmp(argv[7],"-ir")==0)
+            {
+                if(strcmp(argv[8],"Y")!=0 && strcmp(argv[8],"N")!=0) { cout<<"Wrong is relative parameter"<<endl; return 1; }
+                isRelative = strcmp(argv[8],"Y")==0 ? true:false;
+            }
+            mp.setIsRelative(isRelative);
+
+            printTessellatorArguments(mp,argv[2],outputFile);
+        }
+    }
+        break;
     }
 }

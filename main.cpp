@@ -1,3 +1,6 @@
+//! --------
+//! C++ STL
+//! --------
 #include <iostream>
 using namespace std;
 
@@ -223,9 +226,12 @@ int main(int argc, char *argv[])
             bool isDone = inputFileNameToOutputFileName(argv[2],outputFile);
             if(!isDone) return 1;
 
+            double ld = mp.linDefl();
+            double ad = mp.angDefl();
+            bool isRelative = mp.isRel();
+
             if((strcmp(argv[3],"-ld")==0 && strcmp(argv[5],"-ad")==0) || (strcmp(argv[3],"-ad")==0 && strcmp(argv[5],"-ld")==0))
             {
-                double ld = 0, ad = 0;
                 if(strcmp(argv[3],"-ld")==0)
                 {
                     //! ----------------------
@@ -266,16 +272,15 @@ int main(int argc, char *argv[])
                     //! ----------------------
                     //! set linear deflection
                     //! ----------------------
-                    double ld = std::atof(argv[4]);
+                    ld = std::atof(argv[4]);
                     if(ld<0) { cout<<"Wrong linear deflection parameter"<<endl; return 1; }
                     mp.setLinearDeflection(ld);
 
                     //! ----------------
                     //! set is relative
                     //! ----------------
-                    bool isRelative = true;
-                    if(strcmp(argv[5],"Y")!=0 && strcmp(argv[5],"N")!=0) { cout<<"Wrong is relative parameter"<<endl; return 1; }
-                    isRelative = strcmp(argv[5],"Y")==0 ? true:false;
+                    if(strcmp(argv[6],"Y")!=0 && strcmp(argv[6],"N")!=0) { cout<<"Wrong is relative parameter"<<endl; return 1; }
+                    isRelative = strcmp(argv[6],"Y")==0 ? true:false;
                     mp.setIsRelative(isRelative);
                 }
                 else
@@ -283,7 +288,7 @@ int main(int argc, char *argv[])
                     //! ----------------
                     //! set is relative
                     //! ----------------
-                    bool isRelative = true;
+                    //bool isRelative = true;
                     if(strcmp(argv[4],"Y")!=0 && strcmp(argv[4],"N")!=0) { cout<<"Wrong is relative parameter"<<endl; return 1; }
                     isRelative = strcmp(argv[4],"Y")==0 ? true:false;
                     mp.setIsRelative(isRelative);
@@ -291,7 +296,7 @@ int main(int argc, char *argv[])
                     //! ----------------------
                     //! set linear deflection
                     //! ----------------------
-                    double ld = std::atof(argv[6]);
+                    ld = std::atof(argv[6]);
                     if(ld<0) { cout<<"Wrong linear deflection parameter"<<endl; return 1; }
                     mp.setLinearDeflection(ld);
                 }
@@ -303,15 +308,15 @@ int main(int argc, char *argv[])
                     //! -----------------------
                     //! set angular deflection
                     //! -----------------------
-                    double val = 0;
-                    val = std::atof(argv[4]);
-                    if(val<0) { cout<<"Wrong angular deflection value"<<endl; return 1; }
-                    mp.setAngularDeflection(val);
+                    //double val = 0;
+                    ad = std::atof(argv[4]);
+                    if(ad<0) { cout<<"Wrong angular deflection value"<<endl; return 1; }
+                    mp.setAngularDeflection(ad);
 
                     //! ----------------
                     //! set is relative
                     //! ----------------
-                    bool isRelative = true;
+                    //bool isRelative = true;
                     if(strcmp(argv[6],"Y")!=0 && strcmp(argv[6],"N")) { cout<<"Wrong is relative parameter"<<endl; return 1; }
                     isRelative = strcmp(argv[6],"Y")==0? true: false;
                     mp.setIsRelative(isRelative);
@@ -321,7 +326,7 @@ int main(int argc, char *argv[])
                     //! ----------------
                     //! set is relative
                     //! ----------------
-                    bool isRelative = true;
+                    //bool isRelative = true;
                     if(strcmp(argv[4],"Y")!=0 && strcmp(argv[6],"N")) { cout<<"Wrong is relative parameter"<<endl; return 1; }
                     isRelative = strcmp(argv[4],"Y")==0? true: false;
                     mp.setIsRelative(isRelative);
@@ -329,12 +334,14 @@ int main(int argc, char *argv[])
                     //! -----------------------
                     //! set angular deflection
                     //! -----------------------
-                    double val = 0;
-                    val = std::atof(argv[6]);
-                    if(val<0) { cout<<"Wrong angular deflection value"<<endl; return 1; }
-                    mp.setAngularDeflection(val);
+                    //double val = 0;
+                    ad = std::atof(argv[6]);
+                    if(ad<0) { cout<<"Wrong angular deflection value"<<endl; return 1; }
+                    mp.setAngularDeflection(ad);
                 }
             }
+
+            printTessellatorArguments(mp,argv[2],outputFile);
         }
     }
         break;

@@ -199,6 +199,10 @@ int main(int argc, char *argv[])
                 }
                 mp.setIsRelative(isRelative);
             }
+
+            //! --------------------------------------------------------------------------------
+            //! parse OK: print meshing parameteers and run tessellator with default parameters
+            //! --------------------------------------------------------------------------------
             printTessellatorArguments(mp,argv[2],outputFile);
         }
     }
@@ -206,7 +210,6 @@ int main(int argc, char *argv[])
 
     case 7:
     {
-        cout<<"******"<<endl;
         if(strcmp(argv[1],"-i")==0 &&
                 ((strcmp(argv[3],"-ld")==0 && strcmp(argv[5],"-ad")==0) ||
                  (strcmp(argv[3],"-ad")==0 && strcmp(argv[5],"-ld")==0) ||
@@ -341,7 +344,15 @@ int main(int argc, char *argv[])
                 }
             }
 
+            //! --------------------------------------------------------------------------------
+            //! parse OK: print meshing parameteers and run tessellator with default parameters
+            //! --------------------------------------------------------------------------------
             printTessellatorArguments(mp,argv[2],outputFile);
+        }
+        else
+        {
+            cout<<"Wrong parameters list"<<endl;
+            return 1;
         }
     }
         break;
@@ -430,7 +441,15 @@ int main(int argc, char *argv[])
             }
             mp.setIsRelative(isRelative);
 
+            //! --------------------------------------------------------------------------------
+            //! parse OK: print meshing parameteers and run tessellator with default parameters
+            //! --------------------------------------------------------------------------------
             printTessellatorArguments(mp,argv[2],outputFile);
+        }
+        else
+        {
+            cout<<"Wrong parameters list"<<endl;
+            return 1;
         }
     }
         break;

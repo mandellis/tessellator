@@ -318,7 +318,21 @@ int main(int argc, char *argv[])
                 }
                 else
                 {
+                    //! ----------------
+                    //! set is relative
+                    //! ----------------
+                    bool isRelative = true;
+                    if(strcmp(argv[4],"Y")!=0 && strcmp(argv[6],"N")) { cout<<"Wrong is relative parameter"<<endl; return 1; }
+                    isRelative = strcmp(argv[4],"Y")==0? true: false;
+                    mp.setIsRelative(isRelative);
 
+                    //! -----------------------
+                    //! set angular deflection
+                    //! -----------------------
+                    double val = 0;
+                    val = std::atof(argv[6]);
+                    if(val<0) { cout<<"Wrong angular deflection value"<<endl; return 1; }
+                    mp.setAngularDeflection(val);
                 }
             }
         }

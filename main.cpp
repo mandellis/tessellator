@@ -11,6 +11,7 @@ namespace fs = experimental::filesystem;
 //! custom includes
 //! ----------------
 #include "meshingparameters.h"
+#include "tessellator.h"
 
 void printUsage()
 {
@@ -121,6 +122,7 @@ int main(int argc, char *argv[])
     //! ----------------
     case 3:
     {
+        cout<<"***************************"<<endl;
         //! parse arguments "-i <input file>"
         if(strcmp(argv[1],"-i")!=0)
         {
@@ -140,6 +142,8 @@ int main(int argc, char *argv[])
         //! parse OK: print meshing parameteers and run tessellator with default parameters
         //! --------------------------------------------------------------------------------
         printTessellatorArguments(mp,argv[2],outputFile);
+        std::string inputFile(argv[2]);
+        tessellator aTessellator(inputFile);
 
         return 0;
     }

@@ -37,6 +37,8 @@ public:
     void setLinearDeflection(double ld);
     void setAngularDeflection(double ad);
     void setIsRelative(bool isRelative);
+
+    bool perform();
 };
 
 #endif // TESSELLATOR_H

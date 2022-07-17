@@ -16,6 +16,9 @@ namespace fs = std::experimental::filesystem;
 //! OpenCascade
 //! ------------
 #include <STEPControl_Reader.hxx>
+#include <BRepMesh_IncrementalMesh.hxx>
+#include <BRepMesh_FastDiscret.hxx>
+#include <BRepTools.hxx>
 
 //! ----------------------
 //! function: constructor
@@ -132,6 +135,42 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
         cout<<"Null step shape"<<endl;
         return false;
     }
+    return true;
+}
+
+//! --------------------
+//! function: doMeshing
+//! details:
+//! --------------------
+bool tessellator::perform()
+{
+    if(!m_shapeLoaded)
+    {
+        cout<<"tessellator::perform()->____the shape has not been loaded____"<<endl;
+        return false;
+    }
+
+    //! -----------------------------------------------
+    //! clear the default triangulation from the shape
+    //! -----------------------------------------------
+    BRepTools::Clean(m_shape);
+
+    //! -------------------------------------
+    //! set the parameters of the OCC mesher
+    //! -------------------------------------
+    BRepMesh_IncrementalMesh aMesher;
+    aMesher.ChangeParameters().Angle = m_mp.angDefl();
+    aMesher.ChangeParameters().Deflection = m_mp.linDefl();
+    aMesher.ChangeParameters().Relative = m_mp.isRel();
+
+    aMesher.ChangeParameters().AdaptiveMin = false;                 //! default option for BRepMesh_IncrementalMesh
+    aMesher.ChangeParameters().InternalVerticesMode = false;        //! the meaning is clear from the documentation
+    aMesher.ChangeParameters().ControlSurfaceDeflection = true;     //! to be studied
+    aMesher.ChangeParameters().InParallel = true;                   //! forceed to true
+
+    aMesher.SetShape(m_shape);
+    aMesher.Perform();
+
     return true;
 }
 

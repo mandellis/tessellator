@@ -7,6 +7,8 @@
 //! ----
 //! C++
 //! ----
+#include <iostream>
+using namespace std;
 #include <experimental/filesystem>
 namespace fs = std::experimental::filesystem;
 
@@ -23,6 +25,11 @@ tessellator::tessellator(const std::string& shapeFileFullPath)
 {
     //! init meshing parameters
     m_mp = meshingParameters();
+
+    //! load the step file (loadStepFile check also if the path is empty)
+    bool isDone = this->loadStepFile(shapeFileFullPath,m_shape);
+    isDone == true? m_shapeLoaded = true : m_shapeLoaded = false;
+
 }
 
 //! -------------------------------
@@ -73,6 +80,26 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
 
     STEPControl_Reader reader;
     IFSelect_ReturnStatus stat = reader.ReadFile(stepFilePath.c_str());
+    if(stat != IFSelect_RetDone)
+    {
+        cout<<"Error in reading the step file"<<endl;
+        return false;
+    }
 
+    //! diagnostic messages
+    //IFSelect_PrintCount mode = IFSelect_CountByItem;
+    //reader.PrintCheckLoad(false,mode);
+
+    //! ---------------------------------------------
+    //! force the limit on the number of shapes to 1
+    //! ---------------------------------------------
+    int num = reader.NbShapes();
+    if(num>1)
+    {
+        cout<<"The step file contains more than one shape"<<endl;
+        return false;
+    }
+    const int rank = 1;
+    aShape = reader.Shape(rank);
     return true;
 }

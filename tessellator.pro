@@ -28,3 +28,64 @@ HEADERS += \
     tessellator.h
 
 INCLUDEPATH += $$PWD/OpenCascade/7.3.0/win64/vc14/inc \
+
+LIBS += -L$$PWD/OpenCascade\7.3.0\win64\vc14\release\lib\
+-lTKBin   \
+-lTKBinL   \
+-lTKBinTObj   \
+-lTKBinXCAF   \
+-lTKBO   \
+-lTKBool   \
+-lTKBRep   \
+-lTKCAF   \
+-lTKCDF   \
+-lTKD3DHost   \
+-lTKDCAF   \
+-lTKDraw   \
+-lTKernel   \
+-lTKFeat   \
+-lTKFillet   \
+-lTKG2d   \
+-lTKG3d   \
+-lTKGeomAlgo   \
+-lTKGeomBase   \
+-lTKHLR   \
+-lTKIGES   \
+-lTKIVtk   \
+-lTKIVtkDraw   \
+-lTKLCAF   \
+-lTKMath   \
+-lTKMesh   \
+-lTKMeshVS   \
+-lTKOffset   \
+-lTKOpenGl   \
+-lTKPrim   \
+-lTKQADraw   \
+-lTKService   \
+-lTKShHealing   \
+-lTKStd   \
+-lTKStdL   \
+-lTKSTEP   \
+-lTKSTEP209   \
+-lTKSTEPAttr   \
+-lTKSTEPBase   \
+-lTKSTL   \
+-lTKTObj   \
+-lTKTObjDRAW   \
+-lTKTopAlgo   \
+-lTKTopTest   \
+-lTKV3d   \
+-lTKVCAF   \
+-lTKViewerTest   \
+-lTKVRML   \
+-lTKXCAF   \
+-lTKXDEDRAW   \
+-lTKXDEIGES   \
+-lTKXDESTEP   \
+-lTKXMesh   \
+-lTKXml   \
+-lTKXmlL   \
+-lTKXmlTObj   \
+-lTKXmlXCAF   \
+-lTKXSBase   \
+-lTKXSDRAW

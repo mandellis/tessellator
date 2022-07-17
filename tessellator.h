@@ -23,6 +23,7 @@ private:
 
     TopoDS_Shape m_shape;
     meshingParameters m_mp;
+    bool m_shapeLoaded;
 
 private:
 

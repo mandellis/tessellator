@@ -246,6 +246,7 @@ Makefile: ..\tessellator.pro ..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\mkspecs\win32
 		..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\mkspecs\features\yacc.prf \
 		..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\mkspecs\features\lex.prf \
 		..\tessellator.pro \
+		..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\lib\Qt5Network.prl \
 		..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\lib\Qt5Core.prl
 	$(QMAKE) -o Makefile ..\tessellator.pro -spec win32-msvc
 ..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\mkspecs\features\spec_pre.prf:
@@ -419,6 +420,7 @@ Makefile: ..\tessellator.pro ..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\mkspecs\win32
 ..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\mkspecs\features\yacc.prf:
 ..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\mkspecs\features\lex.prf:
 ..\tessellator.pro:
+..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\lib\Qt5Network.prl:
 ..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\lib\Qt5Core.prl:
 qmake: FORCE
 	@$(QMAKE) -o Makefile ..\tessellator.pro -spec win32-msvc

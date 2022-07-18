@@ -5,6 +5,7 @@
 #include "meshingparameters.h"
 #include "mesh.h"
 #include "stlwriter.h"
+//#include "networkcheck.h"
 
 //! --------
 //! C++ STL
@@ -25,11 +26,17 @@ namespace fs = std::experimental::filesystem;
 #include <BRepTools.hxx>
 #include <BRep_Tool.hxx>
 
+//! ---
+//! Qt
+//! ---
+//#include <QCoreApplication>
+
 //! ----------------------
 //! function: constructor
 //! details:
 //! ----------------------
-tessellator::tessellator(const std::string& shapeFileFullPath)
+tessellator::tessellator(const std::string& shapeFileFullPath, QObject* parent):
+    QObject(parent)
 {
     cout<<"tessellator::tessellator()->____constructor called____"<<endl;
 
@@ -93,6 +100,13 @@ void tessellator::setIsRelative(bool isRelative)
 bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aShape)
 {
     cout<<"tessellator::loadStepFile()->____function called____"<<endl;
+
+    /*
+    network n;
+    bool connected = n.check();
+    if(!connected) { cout<<"Network is not connected"<<endl; return false; }
+    cout<<"Network is connected"<<endl;
+    */
 
     //! -------------------
     //! preliminary checks
@@ -278,10 +292,22 @@ bool tessellator::perform(const std::string& outputFileName)
         }
     }*/
 
+    //! -----------------------------------------------------
+    //! generate the output file name and write the stl file
+    //! -----------------------------------------------------
     std::string absoluteOutputFilePath = m_outputFileDirectory+outputFileName;
     cout<<"Absolute output file path: "<<absoluteOutputFilePath<<endl;
-
     STLWriter::Write(m_shape,outputFileName.c_str());
 
+    /*
+    //! -------------------------------------------------
+    //! locate ADMesh and run it with QProcess or system
+    //! -------------------------------------------------
+    //cout<<QCoreApplication::applicationFilePath().toStdString()<<endl;
+    std::string pathOfExecutable("C:\\Repositories\\tessellator\\tessellator_build\\release");
+    std::string pathOfADMesh = pathOfExecutable+"\\ADMesh.exe";
+
+    cout<<"Path of ADMesh: "<<pathOfADMesh<<endl;
+    */
     return true;
 }

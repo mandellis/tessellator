@@ -4,6 +4,7 @@
 #include "tessellator.h"
 #include "meshingparameters.h"
 #include "mesh.h"
+#include "stlwriter.h"
 
 //! --------
 //! C++ STL
@@ -41,6 +42,7 @@ tessellator::tessellator(const std::string& shapeFileFullPath)
     //! load the step file (loadStepFile check also if the path is empty)
     //! meshing, healing, and all the subsequents operations can be done
     //! if m_shapeLoaded == true
+    //! load step file will also determine the output file directory
     //! ------------------------------------------------------------------
     bool isDone = this->loadStepFile(shapeFileFullPath,m_shape);
     isDone == true? m_shapeLoaded = true : m_shapeLoaded = false;
@@ -99,6 +101,22 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
     bool fileExists = fs::exists(stepFilePath);
     if(!fileExists) return false;
 
+    //! ---------------------------------------------------
+    //! absolute input file path and output file directory
+    //! ---------------------------------------------------
+    std::string absoluteInputFilePath = fs::absolute(fs::path(stepFilePath)).string();
+
+    std::stringstream ss(absoluteInputFilePath);
+    std::vector<std::string> chunkList;
+    std::string chunk;
+    while(std::getline(ss, chunk, '\\')) chunkList.push_back(chunk);
+    int NbChunks = static_cast<int>(chunkList.size());
+    int NbChars = static_cast<int>(chunkList.at(NbChunks-1).size());
+
+    m_outputFileDirectory = absoluteInputFilePath;
+    for(int i=0; i<NbChars; i++) m_outputFileDirectory.pop_back();
+    cout<<"output file directory: "<<m_outputFileDirectory<<endl;
+
     //! ------------------------
     //! opencascade step reader
     //! ------------------------
@@ -128,12 +146,12 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
         cout<<"The step file contains more than one shape"<<endl;
         return false;
     }
+    else cout<<"Step file OK"<<endl;
 
-    //! --------------------------------
-    //! transfer a shape by rank number
-    //! --------------------------------
-    const int rank = 1;
-    aShape = reader.Shape(rank);
+    //! -------------------
+    //! transfer the shape
+    //! -------------------
+    aShape = reader.OneShape();
     if(aShape.IsNull())
     {
         cout<<"Null step shape"<<endl;
@@ -142,10 +160,10 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
     return true;
 }
 
-//! --------------------
-//! function: doMeshing
+//! ------------------
+//! function: perform
 //! details:
-//! --------------------
+//! ------------------
 #include <TopExp_Explorer.hxx>
 #include <TopoDS.hxx>
 #include <TopoDS_Face.hxx>
@@ -154,9 +172,15 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
 #include <Poly_Triangulation.hxx>
 #include <Poly_Array1OfTriangle.hxx>
 #include <Poly_Triangle.hxx>
-#include <algorithm>
-bool tessellator::perform()
+
+//! ------------------
+//! function: perform
+//! details:
+//! ------------------
+bool tessellator::perform(const std::string& outputFileName)
 {
+    cout<<"tessellator::perform()->____function called____"<<endl;
+
     if(!m_shapeLoaded)
     {
         cout<<"tessellator::perform()->____the shape has not been loaded____"<<endl;
@@ -184,61 +208,80 @@ bool tessellator::perform()
     aMesher.SetShape(m_shape);
     aMesher.Perform();
 
-    //! --------------------------------------------------
-    //! retrieve the triangulation - scan the model faces
-    //! --------------------------------------------------
-    std::set<mesh::point> meshPointsSet;
-    std::map<int,mesh::point> meshPointsMap;
-    int nodeID = 0;
-    TopExp_Explorer anExp;
-    for(anExp.Init(m_shape,TopAbs_FACE); anExp.More(); anExp.Next())
-    {
-        TopoDS_Face curFace = TopoDS::Face(anExp.Current());
-        if(curFace.IsNull()) continue;
-        TopLoc_Location loc;
-        opencascade::handle<Poly_Triangulation> aFaceTriangulation = BRep_Tool::Triangulation(curFace,loc);
-        const Poly_Array1OfTriangle& triangles = aFaceTriangulation->Triangles();
-        for(int triangleID = 1; triangleID<=triangles.Size(); triangleID++)
-        {
-            mesh::element aMeshElement;
-            const Poly_Triangle& aTriangle = triangles.Value(triangleID);
-            int N1,N2,N3;
-            aTriangle.Get(N1,N2,N3);
-            const gp_Pnt& P1 = aFaceTriangulation->Node(N1);
-            const gp_Pnt& P2 = aFaceTriangulation->Node(N2);
-            const gp_Pnt& P3 = aFaceTriangulation->Node(N3);
+    /*{
+        //! --------------------------------------------------
+        //! retrieve the triangulation - scan the model faces
+        //! --------------------------------------------------
+        std::set<mesh::point> meshPointsSet;
+        std::map<int,mesh::point> meshPointsMap;
+        std::set<mesh::element> meshElementsSet;
 
-            mesh::point MP1(P1.X(),P1.Y(),P1.Z());
-            if(meshPointsSet.count(MP1)==0)
+        int nodeID = 0;
+        TopExp_Explorer anExp;
+        for(anExp.Init(m_shape,TopAbs_FACE); anExp.More(); anExp.Next())
+        {
+            TopoDS_Face curFace = TopoDS::Face(anExp.Current());
+            if(curFace.IsNull()) continue;
+            TopLoc_Location loc;
+            const opencascade::handle<Poly_Triangulation>& aFaceTriangulation = BRep_Tool::Triangulation(curFace,loc);
+            const Poly_Array1OfTriangle& triangles = aFaceTriangulation->Triangles();
+            for(int triangleID = 1; triangleID<=triangles.Size(); triangleID++)
             {
-                MP1.setID(++nodeID);
-                meshPointsMap.insert(std::make_pair(nodeID,MP1));
-                aMeshElement.addNode(MP1);
-            }
-            else
-            {
-                std::find(meshPointsSet,MP1);
-            }
-            mesh::point MP2(P2.X(),P2.Y(),P2.Z());
-            if(meshPointsSet.count(MP2)==0)
-            {
-                MP2.setID(++nodeID);
-                meshPointsMap.insert(std::make_pair(nodeID,MP2));
-                aMeshElement.addNode(MP2);
-            }
-            mesh::point MP3(P3.X(),P3.Y(),P3.Z());
-            if(meshPointsSet.count(MP1)==0)
-            {
-                MP3.setID(++nodeID);
-                meshPointsMap.insert(std::make_pair(nodeID,MP3));
-                aMeshElement.addNode(MP3);
-            }
-            else
-            {
+                mesh::element aMeshElement;
+                const Poly_Triangle& aTriangle = triangles.Value(triangleID);
+                int N1,N2,N3;
+                aTriangle.Get(N1,N2,N3);
+                const gp_Pnt& P1 = aFaceTriangulation->Node(N1);
+                const gp_Pnt& P2 = aFaceTriangulation->Node(N2);
+                const gp_Pnt& P3 = aFaceTriangulation->Node(N3);
+
+                mesh::point MP1(P1.X(),P1.Y(),P1.Z());
+                std::set<mesh::point>::iterator it = meshPointsSet.find(MP1);
+                if(it==meshPointsSet.end())
+                {
+                    MP1.setID(++nodeID);
+                    meshPointsMap.insert(std::make_pair(nodeID,MP1));
+                    aMeshElement.addNode(MP1);
+                }
+                else
+                {
+                    aMeshElement.addNode(*it);
+                }
+                mesh::point MP2(P2.X(),P2.Y(),P2.Z());
+                it = meshPointsSet.find(MP2);
+                if(it==meshPointsSet.end())
+                {
+                    MP2.setID(++nodeID);
+                    meshPointsMap.insert(std::make_pair(nodeID,MP2));
+                    aMeshElement.addNode(MP2);
+                }
+                else
+                {
+                    aMeshElement.addNode(*it);
+                }
+                mesh::point MP3(P3.X(),P3.Y(),P3.Z());
+                it = meshPointsSet.find(MP3);
+                if(it==meshPointsSet.end())
+                {
+                    MP3.setID(++nodeID);
+                    meshPointsMap.insert(std::make_pair(nodeID,MP3));
+                    aMeshElement.addNode(MP3);
+                }
+                else
+                {
+                    aMeshElement.addNode(*it);
+                }
+
+                //! check if the element already exists
 
             }
         }
-    }
+    }*/
+
+    std::string absoluteOutputFilePath = m_outputFileDirectory+outputFileName;
+    cout<<"Absolute output file path: "<<absoluteOutputFilePath<<endl;
+
+    STLWriter::Write(m_shape,outputFileName.c_str());
+
     return true;
 }
-

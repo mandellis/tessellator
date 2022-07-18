@@ -24,6 +24,7 @@ private:
     TopoDS_Shape m_shape;
     meshingParameters m_mp;
     bool m_shapeLoaded;
+    std::string m_outputFileDirectory;
 
 private:
 
@@ -37,8 +38,7 @@ public:
     void setLinearDeflection(double ld);
     void setAngularDeflection(double ad);
     void setIsRelative(bool isRelative);
-
-    bool perform();
+    bool perform(const std::string& outputFileName);
 };
 
 #endif // TESSELLATOR_H

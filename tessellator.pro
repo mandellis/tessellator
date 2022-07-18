@@ -10,6 +10,7 @@ CONFIG -= app_bundle
 TEMPLATE = app
 
 SOURCES += main.cpp \
+    stlwriter.cpp \
     tessellator.cpp
 
 # The following define makes your compiler emit warnings if you use
@@ -25,6 +26,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
     meshingparameters.h \
+    stlwriter.h \
     tessellator.h \
     mesh.h \
     macro.h

@@ -209,7 +209,8 @@ bool tessellator::perform()
             const gp_Pnt& P3 = aFaceTriangulation->Node(N3);
 
             mesh::point MP1(P1.X(),P1.Y(),P1.Z());
-            if(meshPointsSet.count(MP1)==0)
+            std::set<mesh::point>::iterator it = meshPointsSet.find(MP1);
+            if(it==meshPointsSet.end())
             {
                 MP1.setID(++nodeID);
                 meshPointsMap.insert(std::make_pair(nodeID,MP1));
@@ -217,17 +218,19 @@ bool tessellator::perform()
             }
             else
             {
-                std::find(meshPointsSet,MP1);
+                aMeshElement.addNode(*it);
             }
             mesh::point MP2(P2.X(),P2.Y(),P2.Z());
-            if(meshPointsSet.count(MP2)==0)
+            it = meshPointsSet.find(MP2);
+            if(it==meshPointsSet.end())
             {
                 MP2.setID(++nodeID);
                 meshPointsMap.insert(std::make_pair(nodeID,MP2));
                 aMeshElement.addNode(MP2);
             }
             mesh::point MP3(P3.X(),P3.Y(),P3.Z());
-            if(meshPointsSet.count(MP1)==0)
+            it = meshPointsSet.find(MP3);
+            if(it==meshPointsSet.end())
             {
                 MP3.setID(++nodeID);
                 meshPointsMap.insert(std::make_pair(nodeID,MP3));

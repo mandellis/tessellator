@@ -1,6 +1,6 @@
 #ifndef MACRO_H
 #define MACRO_H
 
-typedef float real;
+typedef double real;
 
 #endif // MACRO_H

@@ -78,8 +78,15 @@ private:
             return false;
         }
 
+        //! operator !=
+        bool operator != (const point& other)
+        {
+            if(m_x != other.m_x || m_y != other.m_y || m_z != other.m_z) return true;
+            return false;
+        }
+
         //! very close to
-        bool veryCloseTo(const point& other, real tolerance = 1e-6)
+        bool veryCloseTo(const point& other, real tolerance = 1e-6f)
         {
             real dist = sqrt(pow(m_x-other.m_x,2)+pow(m_y-other.m_y,2)+pow(m_z-other.m_z,2));
             if(dist<= tolerance) return true;
@@ -97,7 +104,7 @@ private:
         {
             std::string line;
             std::getline(is,line);
-            if(sscanf(line.c_str(),"%d%lf%lf%lf",&m_id,&m_x,&m_y,&m_z)==4) return true;
+            if(sscanf_s(line.c_str(),"%d%lf%lf%lf",&m_id,&m_x,&m_y,&m_z)==4) return true;
             return false;
         }
 
@@ -106,6 +113,7 @@ private:
         inline real x() const { return m_x; }
         inline real y() const { return m_y; }
         inline real z() const { return m_z; }
+        inline void setID(int id) { m_id = id; }
     };
 
     class element
@@ -139,11 +147,17 @@ private:
         }
 
         //! operator == (based on coordinates)
-        bool operator = (const element& other)
+        bool operator == (const element& other)
         {
             if(m_points.size()!=other.m_points.size()) return false;
             for(size_t i = 0; i<m_points.size(); i++) if(m_points[i]!=other.m_points[i]) return false;
             return false;
+        }
+
+        //! addNode
+        void addNode(const mesh::point& aPoint)
+        {
+            m_points.push_back(aPoint);
         }
 
         //! persistance: write to stream
@@ -155,15 +169,15 @@ private:
         }
 
         //! persistance: read from stream
-        void read(std::ifstream& is)
+        bool read(std::ifstream& is)
         {
             m_points.clear();
             std::string line;
             std::getline(is,line);
-            if(sscanf(line.c_str(),"%d",&m_id)!=1) return false;                //! read the id
+            if(sscanf_s(line.c_str(),"%d",&m_id)!=1) return false;                //! read the id
             std::getline(is,line);
             int NbPoints = 0;
-            if(sscanf(line.c_str(),"%d",&NbPoints)!=1) return false;            //! read the number of points
+            if(sscanf_s(line.c_str(),"%d",&NbPoints)!=1) return false;            //! read the number of points
             for(int i=0; i<NbPoints; i++)
             {
                 mesh::point P;

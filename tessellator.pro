@@ -25,7 +25,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 HEADERS += \
     meshingparameters.h \
-    tessellator.h
+    tessellator.h \
+    mesh.h \
+    macro.h
 
 INCLUDEPATH += $$PWD/OpenCascade/7.3.0/win64/vc14/inc \
 

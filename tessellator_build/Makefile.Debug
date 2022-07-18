@@ -49,7 +49,9 @@ OBJECTS       = debug\main.obj \
 		debug\tessellator.obj
 
 DIST          =  ..\meshingparameters.h \
-		..\tessellator.h ..\main.cpp \
+		..\tessellator.h \
+		..\mesh.h \
+		..\macro.h ..\main.cpp \
 		..\tessellator.cpp
 QMAKE_TARGET  = tessellator
 DESTDIR        = debug\ #avoid trailing-slash linebreak
@@ -116,7 +118,7 @@ qmake: FORCE
 qmake_all: FORCE
 
 dist:
-	$(ZIP) tessellator.zip $(SOURCES) $(DIST) ..\tessellator.pro C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\spec_pre.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\common\angle.conf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\common\msvc-base.conf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\common\msvc-desktop.conf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\qconfig.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dcore.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dcore_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dextras.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dextras_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dinput.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dinput_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dlogic.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dlogic_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquick.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquick_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquickextras.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquickextras_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquickinput.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquickinput_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquickrender.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquickrender_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3drender.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3drender_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_accessibility_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_axbase.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_axserver.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_charts.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_charts_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_core.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_core_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_dbus.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_designer.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_devicediscovery_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_egl_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_fb_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_fontdatabase_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_gui.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_help.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_help_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_location.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_location_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_network.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_network_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_nfc.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_opengl.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_packetprotocol_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_platformcompositor_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_positioning.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_qml.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_qmldebug_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quick.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quickcontrols2.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quickcontrols2_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quicktemplates2_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_scxml.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_scxml_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_sensors.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_serialbus.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_serialbus_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_serialport.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_sql.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_svg.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_testlib.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_theme_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_uitools.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_websockets.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_webview.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_webview_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_widgets.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_winextras.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_xml.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_zlib_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\qt_functions.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\qt_config.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\win32-msvc2015\qmake.conf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\spec_post.prf .qmake.stash C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\exclusive_builds.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\toolchain.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\default_pre.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\win32\default_pre.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\resolve_config.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\exclusive_builds_post.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\default_post.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\build_pass.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\win32\console.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\win32\rtti.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\precompile_header.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\warn_on.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\qt.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\resources.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\moc.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\qmake_use.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\file_copies.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\testcase_targets.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\exceptions.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\yacc.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\lex.prf ..\tessellator.pro C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\lib\Qt5Cored.prl    C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\data\dummy.cpp ..\meshingparameters.h ..\tessellator.h ..\main.cpp ..\tessellator.cpp    
+	$(ZIP) tessellator.zip $(SOURCES) $(DIST) ..\tessellator.pro C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\spec_pre.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\common\angle.conf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\common\msvc-base.conf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\common\msvc-desktop.conf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\qconfig.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dcore.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dcore_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dextras.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dextras_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dinput.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dinput_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dlogic.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dlogic_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquick.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquick_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquickextras.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquickextras_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquickinput.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquickinput_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquickrender.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3dquickrender_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3drender.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_3drender_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_accessibility_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_axbase.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_axbase_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_axcontainer.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_axcontainer_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_axserver.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_axserver_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_bluetooth.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_bluetooth_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_bootstrap_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_charts.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_charts_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_clucene_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_concurrent.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_concurrent_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_core.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_core_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_dbus.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_dbus_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_designer.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_designer_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_designercomponents_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_devicediscovery_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_egl_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_eventdispatcher_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_fb_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_fontdatabase_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_gui.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_gui_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_help.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_help_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_location.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_location_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_multimedia.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_multimedia_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_multimediawidgets.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_multimediawidgets_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_network.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_network_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_nfc.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_nfc_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_opengl.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_opengl_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_openglextensions.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_openglextensions_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_packetprotocol_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_platformcompositor_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_positioning.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_positioning_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_printsupport.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_printsupport_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_qml.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_qml_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_qmldebug_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_qmldevtools_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_qmltest.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_qmltest_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_qtmultimediaquicktools_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quick.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quick_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quickcontrols2.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quickcontrols2_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quickparticles_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quicktemplates2_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quickwidgets.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_quickwidgets_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_scxml.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_scxml_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_sensors.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_sensors_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_serialbus.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_serialbus_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_serialport.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_serialport_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_sql.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_sql_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_svg.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_svg_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_testlib.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_testlib_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_theme_support_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_uiplugin.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_uitools.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_uitools_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_webchannel.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_webchannel_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_websockets.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_websockets_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_webview.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_webview_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_widgets.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_widgets_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_winextras.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_winextras_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_xml.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_xml_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_xmlpatterns.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_xmlpatterns_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\modules\qt_lib_zlib_private.pri C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\qt_functions.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\qt_config.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\win32-msvc2015\qmake.conf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\spec_post.prf .qmake.stash C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\exclusive_builds.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\toolchain.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\default_pre.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\win32\default_pre.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\resolve_config.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\exclusive_builds_post.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\default_post.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\build_pass.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\win32\console.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\win32\rtti.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\precompile_header.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\warn_on.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\qt.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\resources.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\moc.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\qmake_use.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\file_copies.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\testcase_targets.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\exceptions.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\yacc.prf C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\lex.prf ..\tessellator.pro C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\lib\Qt5Cored.prl    C:\Qt\Qt5.8.0_MSVC2015\5.8\msvc2015_64\mkspecs\features\data\dummy.cpp ..\meshingparameters.h ..\tessellator.h ..\mesh.h ..\macro.h ..\main.cpp ..\tessellator.cpp    
 
 clean: compiler_clean 
 	-$(DEL_FILE) debug\main.obj debug\tessellator.obj
@@ -161,7 +163,97 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
-debug\main.obj: ..\main.cpp ../meshingparameters.h
+debug\main.obj: ..\main.cpp ../meshingparameters.h \
+		../tessellator.h \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_Shape.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_DefineAlloc.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_Address.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_Integer.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_TypeDef.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_Macro.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_values.h \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_Size.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_Transient.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_PrimitiveTypes.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_Boolean.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_Real.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_math.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_Character.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_ExtCharacter.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_OStream.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_Stream.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_CString.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_ExtString.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_Handle.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopLoc_Location.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopLoc_SListOfItemLocation.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopLoc_SListOfItemLocation.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopLoc_Location.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopLoc_ItemLocation.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Trsf.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_TrsfForm.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Mat.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Mat.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_OutOfRange.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_Type.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_DefineException.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_SStream.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_RangeError.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_DomainError.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_Failure.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_ConstructionError.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_XYZ.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_XYZ.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_Mat4.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_Vec4.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_Vec3.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_Vec2.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Trsf.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Trsf2d.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Mat2d.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Mat2d.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_XY.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_XY.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Trsf2d.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Pnt2d.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Pnt2d.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Vec2d.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Vec2d.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Dir2d.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Dir2d.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Ax2d.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Ax2d.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Vec.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Vec.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Dir.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Dir.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Pnt.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Pnt.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_VectorWithNullMagnitude.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopAbs_Orientation.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopAbs_ShapeEnum.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_Shape.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_TShape.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_ListOfShape.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_List.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_TListIterator.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_BaseList.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_NoSuchObject.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_DefineAlloc.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_BaseAllocator.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_TypeDef.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_ListNode.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_TListNode.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_StlIterator.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_Assert.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_ProgramError.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_TShape.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopAbs.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopAbs_State.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_ListIteratorOfListOfShape.hxx
 
 debug\tessellator.obj: ..\tessellator.cpp ../tessellator.h \
 		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_Shape.hxx \
@@ -275,7 +367,151 @@ debug\tessellator.obj: ..\tessellator.cpp ../tessellator.h \
 		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_DimensionMismatch.hxx \
 		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_DimensionError.hxx \
 		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_OutOfMemory.hxx \
-		..\OpenCascade\7.3.0\win64\vc14\inc\TColStd_Array1OfReal.hxx
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColStd_Array1OfReal.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_IncrementalMesh.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_FastDiscret.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_DataStructureOfDelaun.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_VertexTool.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_VertexInspector.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Precision.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Bnd_B2d.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Bnd_B2x.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Bnd_Box2d.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_Map.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_BaseMap.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_DataMap.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_DefaultHasher.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_TypeMismatch.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_Vector.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_BaseVector.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_Handle.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_IndexedMap.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_IndexedDataMap.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_CellFilter.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_LocalArray.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_IncAllocator.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_EBTree.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_UBTree.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColStd_SequenceOfInteger.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_UBTreeFiller.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_Edge.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_DegreeOfFreedom.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_OrientedEdge.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_Triangle.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_PairOfPolygon.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_PairOfIndex.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_Circle.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopTools_ShapeMapHasher.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopTools_ShapeMapHasher.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_Face.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_Face.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_Vertex.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColStd_IndexedMapOfInteger.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColStd_MapIntegerHasher.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_Status.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopTools_DataMapOfShapeReal.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopTools_ListOfShape.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopTools_MutexForShapeProvider.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_Delaun.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_CircleTool.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_CircleInspector.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_GeomTool.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\GCPnts_TangentialDeflection.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColgp_SequenceOfPnt.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColStd_SequenceOfReal.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Lin.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Ax1.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Ax1.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Lin.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\math_Function.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\math_MultipleVarFunction.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\math_Vector.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\math_SingleTab.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Adaptor3d_Curve.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\GeomAbs_Shape.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\GeomAbs_CurveType.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Adaptor2d_Curve2d.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\GeomAbs_IsoType.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_Edge.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_Edge.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColStd_Array1OfInteger.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColStd_MapOfInteger.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_FaceAttribute.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColgp_Array1OfPnt.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRep_Tool.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Geom_Surface.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Geom_Curve.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Geom_Geometry.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Geom2d_Curve.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Geom2d_Geometry.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Poly_Triangulation.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_DefineHandle.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColgp_HArray1OfPnt2d.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColgp_Array1OfPnt2d.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_DefineHArray1.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_DefineArray1.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Poly_Array1OfTriangle.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Poly_Triangle.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Poly_Triangle.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TShort_HArray1OfShortReal.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_ShortReal.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TShort_Array1OfShortReal.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Poly_Polygon3D.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColStd_HArray1OfReal.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Poly_Polygon3D.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Poly_Polygon2D.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Poly_Polygon2D.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Poly_PolygonOnTriangulation.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Poly_PolygonOnTriangulation.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_ShapeTool.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepAdaptor_HSurface.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepAdaptor_Surface.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\GeomAdaptor_Surface.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\GeomAbs_SurfaceType.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BSplSLib_Cache.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColgp_Array2OfPnt.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_Array2.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColStd_HArray2OfReal.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TColStd_Array2OfReal.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_DefineHArray2.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\NCollection_DefineArray2.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Adaptor3d_Surface.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\GeomEvaluator_Surface.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\GeomAdaptor_Surface.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_NullObject.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepAdaptor_Surface.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Adaptor3d_HSurface.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Pln.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Ax3.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Ax3.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Ax2.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Ax2.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Pln.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Cylinder.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Cylinder.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Cone.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Cone.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Sphere.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Sphere.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Torus.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\gp_Torus.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Adaptor3d_HSurface.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Adaptor3d_GenHSurface.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_Vertex.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_Vertex.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopTools_IndexedDataMapOfShapeListOfShape.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopTools_MapOfShape.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepMesh_DiscretRoot.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\BRepTools.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TopTools_IndexedMapOfShape.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Message_ProgressIndicator.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Message_SequenceOfProgressScale.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Message_ProgressScale.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Message_ProgressScale.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TCollection_HAsciiString.hxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\TCollection_HAsciiString.lxx \
+		..\OpenCascade\7.3.0\win64\vc14\inc\Message_ProgressIndicator.lxx
 
 ####### Install
 

@@ -16,6 +16,7 @@ using namespace std;
 namespace fs = std::experimental::filesystem;
 #include <map>
 #include <set>
+#include <memory>
 
 //! ------------
 //! OpenCascade
@@ -29,14 +30,28 @@ namespace fs = std::experimental::filesystem;
 //! ---
 //! Qt
 //! ---
-//#include <QCoreApplication>
+#include <QProcess>
+#include <QCoreApplication>
+
+
+/*
+ * future implementation of mesh in memory
+ *
+#include <TopExp_Explorer.hxx>
+#include <TopoDS.hxx>
+#include <TopoDS_Face.hxx>
+#include <TopAbs_ShapeEnum.hxx>
+#include <TopLoc_Location.hxx>
+#include <Poly_Triangulation.hxx>
+#include <Poly_Array1OfTriangle.hxx>
+#include <Poly_Triangle.hxx>
+*/
 
 //! ----------------------
 //! function: constructor
 //! details:
 //! ----------------------
-tessellator::tessellator(const std::string& shapeFileFullPath, QObject* parent):
-    QObject(parent)
+tessellator::tessellator(const std::string& shapeFileFullPath)
 {
     cout<<"tessellator::tessellator()->____constructor called____"<<endl;
 
@@ -102,6 +117,11 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
     cout<<"tessellator::loadStepFile()->____function called____"<<endl;
 
     /*
+     * this is intended to protect the software
+     * the executable will run only if the network is connected
+     * if the network is connected the machine IP, the time and date
+     * will be sent to www.solvosrl.com: usage will be monitored
+     *
     network n;
     bool connected = n.check();
     if(!connected) { cout<<"Network is not connected"<<endl; return false; }
@@ -118,16 +138,16 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
     //! ---------------------------------------------------
     //! absolute input file path and output file directory
     //! ---------------------------------------------------
-    std::string absoluteInputFilePath = fs::absolute(fs::path(stepFilePath)).string();
+    m_absoluteInputFilePath = fs::absolute(fs::path(stepFilePath)).string();
 
-    std::stringstream ss(absoluteInputFilePath);
+    std::stringstream ss(m_absoluteInputFilePath);
     std::vector<std::string> chunkList;
     std::string chunk;
     while(std::getline(ss, chunk, '\\')) chunkList.push_back(chunk);
     int NbChunks = static_cast<int>(chunkList.size());
     int NbChars = static_cast<int>(chunkList.at(NbChunks-1).size());
 
-    m_outputFileDirectory = absoluteInputFilePath;
+    m_outputFileDirectory = m_absoluteInputFilePath;
     for(int i=0; i<NbChars; i++) m_outputFileDirectory.pop_back();
     cout<<"output file directory: "<<m_outputFileDirectory<<endl;
 
@@ -173,19 +193,6 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
     }
     return true;
 }
-
-//! ------------------
-//! function: perform
-//! details:
-//! ------------------
-#include <TopExp_Explorer.hxx>
-#include <TopoDS.hxx>
-#include <TopoDS_Face.hxx>
-#include <TopAbs_ShapeEnum.hxx>
-#include <TopLoc_Location.hxx>
-#include <Poly_Triangulation.hxx>
-#include <Poly_Array1OfTriangle.hxx>
-#include <Poly_Triangle.hxx>
 
 //! ------------------
 //! function: perform
@@ -292,22 +299,41 @@ bool tessellator::perform(const std::string& outputFileName)
         }
     }*/
 
-    //! -----------------------------------------------------
-    //! generate the output file name and write the stl file
-    //! -----------------------------------------------------
+    //! ----------------------------------
+    //! Write the .stl file as is on disk
+    //! ----------------------------------
     std::string absoluteOutputFilePath = m_outputFileDirectory+outputFileName;
     cout<<"Absolute output file path: "<<absoluteOutputFilePath<<endl;
-    STLWriter::Write(m_shape,outputFileName.c_str());
+    STLWriter::Write(m_shape,absoluteOutputFilePath.c_str());
 
-    /*
-    //! -------------------------------------------------
-    //! locate ADMesh and run it with QProcess or system
-    //! -------------------------------------------------
-    //cout<<QCoreApplication::applicationFilePath().toStdString()<<endl;
-    std::string pathOfExecutable("C:\\Repositories\\tessellator\\tessellator_build\\release");
+    //! -----------------------------------------------------------
+    //! locate ADMesh and run it with QProcess or system:
+    //! generate the output file name and write the stl file.
+    //! If you want to perform a custom set of checks using ADMesh
+    //!
+    //! --exact --nearby --tolerance=<tolerance value>
+    //! --iterations=<number of iterations> --exact
+    //! --normal-directions --normal-values
+    //! -----------------------------------------------------------
+
+    std::string pathOfExecutable = QCoreApplication::applicationDirPath().toStdString();
     std::string pathOfADMesh = pathOfExecutable+"\\ADMesh.exe";
+    std::string absoluteOutputFilePath_H = absoluteOutputFilePath;
+    for(int i=0; i<4; i++) absoluteOutputFilePath_H.pop_back();
+    absoluteOutputFilePath_H += "_H.stl";
+    cout<<"Full path of the corrected tessellation: "<<absoluteOutputFilePath_H<<endl;
 
-    cout<<"Path of ADMesh: "<<pathOfADMesh<<endl;
-    */
-    return true;
+    std::shared_ptr<QProcess> healingProcess = std::make_shared<QProcess>();
+    healingProcess->setProgram(QString::fromStdString(pathOfADMesh));
+
+    cout<<"Absolute input file path: "<<m_absoluteInputFilePath<<endl;
+
+    QStringList arguments;
+    arguments<<QString::fromStdString(absoluteOutputFilePath)<<QString("-a")<<QString::fromStdString(absoluteOutputFilePath_H);
+    healingProcess->setArguments(arguments);
+
+    cout<<"Mesh healing started"<<endl;
+    healingProcess->start();
+    bool isDone = healingProcess->waitForFinished(-1);
+    return isDone;
 }

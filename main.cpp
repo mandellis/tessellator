@@ -7,102 +7,32 @@ using namespace std;
 #include <experimental/filesystem>
 namespace fs = experimental::filesystem;
 
+//! ---
+//! Qt
+//! ---
+#include <QCoreApplication>
+
 //! ----------------
 //! custom includes
 //! ----------------
 #include "meshingparameters.h"
 #include "tessellator.h"
 
-void printUsage()
-{
-    cout<<"usage: "<<endl;
-    cout<<"-i <input file>"<<endl;
-    cout<<"-o <output file>"<<endl;
-}
-
-void printArgumentsOK()
-{
-    cout<<"arguments ok"<<endl;
-}
-
-//! ------------------------------------
-//! function: printTessellatorArguments
-//! details:
-//! ------------------------------------
-void printTessellatorArguments(const meshingParameters& parameters, std::string inputFileName, std::string outputFileName)
-{
-    if(!inputFileName.empty()) cout<<"Input file name: "<<inputFileName<<endl;
-    if(!outputFileName.empty()) cout<<"Output file name: "<<outputFileName<<endl;
-    cout<<"Meshing parameters: "<<endl;
-    cout<<"Linear deflection:  "<<parameters.linDefl()<<endl;
-    cout<<"Angular deflection: "<<parameters.angDefl()<<endl;
-    cout<<"Is relative: "<<(parameters.isRel()==true? "Y":"N")<<endl;
-}
-
-//! ----------------------------------------
-//! function: inputFileNameToOutputFileName
-//! details:
-//! ----------------------------------------
-bool inputFileNameToOutputFileName(char* inputFileName, std::string& outputFileName)
-{
-    //! ---------------------------------------------
-    //! check if the input file exists; if not print
-    //! "the input file does not exist" and return
-    //! ---------------------------------------------
-    bool exist = fs::exists(inputFileName);
-    if(!exist)
-    {
-        cout<<"the input file does not exists"<<endl;
-        return false;
-    }
-    //! -----------------------------------------------
-    //! the input file exists: now check the extension
-    //! -----------------------------------------------
-    cout<<"Input file found"<<endl;
-    //printArgumentsOK();
-
-    //! ----------------
-    //! parse extension
-    //! ----------------
-    int len = static_cast<int>(strlen(inputFileName));
-
-    //! take five chars from the end
-    std::string extension1;
-    for(int i=5; i>0; i--)
-    {
-        extension1.push_back(inputFileName[len-i]);
-        //cout<<extension1<<endl;
-    }
-    //! take four chars from the end
-    std::string extension2;
-    for(int i=4; i>0; i--)
-    {
-        extension2.push_back(inputFileName[len-i]);
-        //cout<<extension2<<endl;
-    }
-
-    if(extension1!=".step" && extension1!=".STEP" && extension2!=".stp" && extension2!=".STP")
-    {
-        cout<<"invalid input file"<<endl;
-        return false;
-    }
-    printArgumentsOK();
-
-    //! -------------------------------------
-    //! generate the name of the output file
-    //! -------------------------------------
-    outputFileName = std::string(inputFileName);
-    int count = 0;
-    if(extension1==".step" || extension1==".STEP") count = 5;
-    if(extension2==".stp" || extension2 ==".STP") count = 4;
-    for(int i=0; i<count; i++) outputFileName.pop_back();
-    outputFileName.append(".stl");
-    //cout<<outputFileName<<endl;
-    return true;
-}
+//! -----------------------
+//! functions used by main
+//! -----------------------
+void printUsage();
+void printArgumentsOK();
+void printTessellatorArguments(const meshingParameters& parameters, std::string inputFileName, std::string outputFileName);
+bool inputFileNameToOutputFileName(char* inputFileName, std::string& outputFileName);
 
 int main(int argc, char *argv[])
 {
+    //! -----------------
+    //! QCoreApplication
+    //! -----------------
+    QCoreApplication a(argc, argv);
+
     //! ----------------------------------------
     //! a set of default parameters for meshing
     //! ----------------------------------------
@@ -143,6 +73,7 @@ int main(int argc, char *argv[])
         printTessellatorArguments(mp,argv[2],outputFile);
         std::string inputFile(argv[2]);
         tessellator aTessellator(inputFile);
+
         aTessellator.perform(outputFile);
     }
         break;
@@ -456,4 +387,101 @@ int main(int argc, char *argv[])
     }
         break;
     }
+
+    return a.exec();
+}
+
+//! ---------------------
+//! function: printUsage
+//! ---------------------
+void printUsage()
+{
+    cout<<"usage: "<<endl;
+    cout<<"-i <input file>"<<endl;
+    cout<<"-o <output file>"<<endl;
+}
+
+//! ---------------------------
+//! function: printArgumentsOK
+//! ---------------------------
+void printArgumentsOK()
+{
+    cout<<"arguments ok"<<endl;
+}
+
+//! ------------------------------------
+//! function: printTessellatorArguments
+//! details:
+//! ------------------------------------
+void printTessellatorArguments(const meshingParameters& parameters, std::string inputFileName, std::string outputFileName)
+{
+    if(!inputFileName.empty()) cout<<"Input file name: "<<inputFileName<<endl;
+    if(!outputFileName.empty()) cout<<"Output file name: "<<outputFileName<<endl;
+    cout<<"Meshing parameters: "<<endl;
+    cout<<"Linear deflection:  "<<parameters.linDefl()<<endl;
+    cout<<"Angular deflection: "<<parameters.angDefl()<<endl;
+    cout<<"Is relative: "<<(parameters.isRel()==true? "Y":"N")<<endl;
+}
+
+//! ----------------------------------------
+//! function: inputFileNameToOutputFileName
+//! details:
+//! ----------------------------------------
+bool inputFileNameToOutputFileName(char* inputFileName, std::string& outputFileName)
+{
+    //! ---------------------------------------------
+    //! check if the input file exists; if not print
+    //! "the input file does not exist" and return
+    //! ---------------------------------------------
+    bool exist = fs::exists(inputFileName);
+    if(!exist)
+    {
+        cout<<"the input file does not exists"<<endl;
+        return false;
+    }
+
+    //! -----------------------------------------------
+    //! the input file exists: now check the extension
+    //! -----------------------------------------------
+    cout<<"Input file found"<<endl;
+    //printArgumentsOK();
+
+    //! ----------------
+    //! parse extension
+    //! ----------------
+    int len = static_cast<int>(strlen(inputFileName));
+
+    //! take five chars from the end
+    std::string extension1;
+    for(int i=5; i>0; i--)
+    {
+        extension1.push_back(inputFileName[len-i]);
+        //cout<<extension1<<endl;
+    }
+    //! take four chars from the end
+    std::string extension2;
+    for(int i=4; i>0; i--)
+    {
+        extension2.push_back(inputFileName[len-i]);
+        //cout<<extension2<<endl;
+    }
+
+    if(extension1!=".step" && extension1!=".STEP" && extension2!=".stp" && extension2!=".STP")
+    {
+        cout<<"invalid input file"<<endl;
+        return false;
+    }
+    printArgumentsOK();
+
+    //! -------------------------------------
+    //! generate the name of the output file
+    //! -------------------------------------
+    outputFileName = std::string(inputFileName);
+    int count = 0;
+    if(extension1==".step" || extension1==".STEP") count = 5;
+    if(extension2==".stp" || extension2 ==".STP") count = 4;
+    for(int i=0; i<count; i++) outputFileName.pop_back();
+    outputFileName.append(".stl");
+    cout<<"Output file name: "<<outputFileName<<endl;
+    return true;
 }

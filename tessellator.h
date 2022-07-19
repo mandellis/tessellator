@@ -1,8 +1,6 @@
 #ifndef TESSELLATOR_H
 #define TESSELLATOR_H
 
-#include <QObject>
-
 //! --------
 //! C++ STL
 //! --------
@@ -18,7 +16,7 @@
 //! ----------------
 #include "meshingparameters.h"
 
-class tessellator: public QObject
+class tessellator
 {
 
 private:
@@ -26,6 +24,7 @@ private:
     TopoDS_Shape m_shape;
     meshingParameters m_mp;
     bool m_shapeLoaded;
+    std::string m_absoluteInputFilePath;
     std::string m_outputFileDirectory;
 
 private:
@@ -34,7 +33,7 @@ private:
 
 public:
 
-    tessellator(const std::string& shapeFileFullPath = "", QObject* parent=0);
+    tessellator(const std::string& shapeFileFullPath = "");
 
     void setMeshingParameters(const meshingParameters &mp);
     void setLinearDeflection(double ld);

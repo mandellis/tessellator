@@ -1,13 +1,22 @@
+//! ----------------
+//! custom includes
+//! ----------------
 #include "stlwriter.h"
-
 using namespace STLWriter;
 
+//! ------------
+//! OpenCascade
+//! ------------
 #include <BRep_Tool.hxx>
 #include <TopExp_Explorer.hxx>
 #include <Poly_Triangulation.hxx>
 #include <TopExp.hxx>
 #include <TopoDS.hxx>
 
+//! ---------------------------
+//! function: TriangleAccessor
+//! details:
+//! ---------------------------
 STLWriter::TriangleAccessor::TriangleAccessor(const TopoDS_Face& aFace)
 {
     TopLoc_Location aLoc;
@@ -18,6 +27,10 @@ STLWriter::TriangleAccessor::TriangleAccessor(const TopoDS_Face& aFace)
     if (myTrsf.IsNegative()) myInvert = ! myInvert;
 }
 
+//! ----------------------
+//! function: GetTriangle
+//! details:
+//! ----------------------
 void STLWriter::TriangleAccessor::GetTriangle(int iTri, gp_Vec &theNormal, gp_Pnt &thePnt1, gp_Pnt &thePnt2, gp_Pnt &thePnt3)
 {
     int iNode1, iNode2, iNode3;
@@ -68,7 +81,8 @@ bool STLWriter::Write(const TopoDS_Shape& theShape, const char *theFileName)
                      aNorm.X(), aNorm.Y(), aNorm.Z(),
                      aPnt1.X(), aPnt1.Y(), aPnt1.Z(),
                      aPnt2.X(), aPnt2.Y(), aPnt2.Z(),
-                     aPnt3.X(), aPnt3.Y(), aPnt3.Z());
+                     aPnt3.X(), aPnt3.Y(), aPnt3.Z()
+                     );
         }
     }
     fprintf (aFile, "endsolid shape\n");

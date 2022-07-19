@@ -170,12 +170,8 @@ compiler_clean: compiler_moc_predefs_clean
 
 ####### Compile
 
-debug\main.obj: ..\main.cpp ../meshingparameters.h \
-		../tessellator.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\QObject \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobject.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobjectdefs.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qnamespace.h \
+debug\main.obj: ..\main.cpp ..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\QCoreApplication \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qcoreapplication.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qglobal.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qconfig-bootstrapped.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qconfig.h \
@@ -197,13 +193,16 @@ debug\main.obj: ..\main.cpp ../meshingparameters.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qmutex.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qnumeric.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qversiontagging.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qstring.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qchar.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qbytearray.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qrefcount.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qnamespace.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qarraydata.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qstringbuilder.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobject.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobjectdefs.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobjectdefs_impl.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qlist.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qalgorithms.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qiterator.h \
@@ -219,6 +218,9 @@ debug\main.obj: ..\main.cpp ../meshingparameters.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qvarlengtharray.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qcontainerfwd.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobject_impl.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qeventloop.h \
+		../meshingparameters.h \
+		../tessellator.h \
 		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_Shape.hxx \
 		..\OpenCascade\7.3.0\win64\vc14\inc\Standard.hxx \
 		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_DefineAlloc.hxx \
@@ -457,53 +459,6 @@ debug\stlwriter.obj: ..\stlwriter.cpp ../stlwriter.h \
 		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS.lxx
 
 debug\tessellator.obj: ..\tessellator.cpp ../tessellator.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\QObject \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobject.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobjectdefs.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qnamespace.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qglobal.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qconfig-bootstrapped.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qconfig.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qtcore-config.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qsystemdetection.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qprocessordetection.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qcompilerdetection.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qtypeinfo.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qsysinfo.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qlogging.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qflags.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qatomic.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qbasicatomic.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qatomic_bootstrap.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qgenericatomic.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qatomic_cxx11.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qatomic_msvc.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qglobalstatic.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qmutex.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qnumeric.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qversiontagging.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobjectdefs_impl.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qstring.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qchar.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qbytearray.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qrefcount.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qarraydata.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qstringbuilder.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qlist.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qalgorithms.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qiterator.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qhashfunctions.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qpair.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qbytearraylist.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qstringlist.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qregexp.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qstringmatcher.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qcoreevent.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qscopedpointer.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qmetatype.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qvarlengtharray.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qcontainerfwd.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobject_impl.h \
 		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_Shape.hxx \
 		..\OpenCascade\7.3.0\win64\vc14\inc\Standard.hxx \
 		..\OpenCascade\7.3.0\win64\vc14\inc\Standard_DefineAlloc.hxx \
@@ -763,16 +718,60 @@ debug\tessellator.obj: ..\tessellator.cpp ../tessellator.h \
 		..\OpenCascade\7.3.0\win64\vc14\inc\TCollection_HAsciiString.hxx \
 		..\OpenCascade\7.3.0\win64\vc14\inc\TCollection_HAsciiString.lxx \
 		..\OpenCascade\7.3.0\win64\vc14\inc\Message_ProgressIndicator.lxx \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\QProcess \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qprocess.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qiodevice.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qglobal.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qconfig-bootstrapped.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qconfig.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qtcore-config.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qsystemdetection.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qprocessordetection.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qcompilerdetection.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qtypeinfo.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qsysinfo.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qlogging.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qflags.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qatomic.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qbasicatomic.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qatomic_bootstrap.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qgenericatomic.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qatomic_cxx11.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qatomic_msvc.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qglobalstatic.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qmutex.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qnumeric.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qversiontagging.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobject.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobjectdefs.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qnamespace.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobjectdefs_impl.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qstring.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qchar.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qbytearray.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qrefcount.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qarraydata.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qstringbuilder.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qlist.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qalgorithms.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qiterator.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qhashfunctions.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qpair.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qbytearraylist.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qstringlist.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qregexp.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qstringmatcher.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qcoreevent.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qscopedpointer.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qmetatype.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qvarlengtharray.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qcontainerfwd.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qobject_impl.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qshareddata.h \
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qhash.h \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\QCoreApplication \
 		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qcoreapplication.h \
-		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qeventloop.h \
-		..\OpenCascade\7.3.0\win64\vc14\inc\TopExp_Explorer.hxx \
-		..\OpenCascade\7.3.0\win64\vc14\inc\TopExp_Stack.hxx \
-		..\OpenCascade\7.3.0\win64\vc14\inc\TopExp_Explorer.lxx \
-		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_Iterator.hxx \
-		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS_Iterator.lxx \
-		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS.hxx \
-		..\OpenCascade\7.3.0\win64\vc14\inc\TopoDS.lxx
+		..\..\..\..\Qt\Qt5.9.9\5.9.9\msvc2015_64\include\QtCore\qeventloop.h
 
 ####### Install
 

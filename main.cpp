@@ -73,7 +73,7 @@ int main(int argc, char *argv[])
         printTessellatorArguments(mp,argv[2],outputFile);
         std::string inputFile(argv[2]);
         tessellator aTessellator(inputFile);
-
+        aTessellator.setMeshingParameters(mp);
         aTessellator.perform(outputFile);
     }
         break;
@@ -137,6 +137,11 @@ int main(int argc, char *argv[])
             //! parse OK: print meshing parameteers and run tessellator with default parameters
             //! --------------------------------------------------------------------------------
             printTessellatorArguments(mp,argv[2],outputFile);
+
+            std::string inputFile(argv[2]);
+            tessellator aTessellator(inputFile);
+            aTessellator.setMeshingParameters(mp);
+            aTessellator.perform(outputFile);
         }
     }
         break;
@@ -281,6 +286,10 @@ int main(int argc, char *argv[])
             //! parse OK: print meshing parameteers and run tessellator with default parameters
             //! --------------------------------------------------------------------------------
             printTessellatorArguments(mp,argv[2],outputFile);
+            std::string inputFile(argv[2]);
+            tessellator aTessellator(inputFile);
+            aTessellator.setMeshingParameters(mp);
+            aTessellator.perform(outputFile);
         }
         else
         {
@@ -378,6 +387,10 @@ int main(int argc, char *argv[])
             //! parse OK: print meshing parameteers and run tessellator with default parameters
             //! --------------------------------------------------------------------------------
             printTessellatorArguments(mp,argv[2],outputFile);
+            std::string inputFile(argv[2]);
+            tessellator aTessellator(inputFile);
+            aTessellator.setMeshingParameters(mp);
+            aTessellator.perform(outputFile);
         }
         else
         {

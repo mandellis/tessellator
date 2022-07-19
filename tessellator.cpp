@@ -53,7 +53,7 @@ namespace fs = std::experimental::filesystem;
 //! ----------------------
 tessellator::tessellator(const std::string& shapeFileFullPath)
 {
-    cout<<"tessellator::tessellator()->____constructor called____"<<endl;
+    //cout<<"tessellator::tessellator()->____constructor called____"<<endl;
 
     //! ---------------------------------------------------------------------------------
     //! init meshing parameters - use the default constructor of meshingParameters class
@@ -323,11 +323,12 @@ bool tessellator::perform(const std::string& outputFileName)
     absoluteOutputFilePath_H += "_H.stl";
     cout<<"Full path of the corrected tessellation: "<<absoluteOutputFilePath_H<<endl;
 
+    /*
+     * use QProcess
+     *
     std::shared_ptr<QProcess> healingProcess = std::make_shared<QProcess>();
     healingProcess->setProgram(QString::fromStdString(pathOfADMesh));
-
     cout<<"Absolute input file path: "<<m_absoluteInputFilePath<<endl;
-
     QStringList arguments;
     arguments<<QString::fromStdString(absoluteOutputFilePath)<<QString("-a")<<QString::fromStdString(absoluteOutputFilePath_H);
     healingProcess->setArguments(arguments);
@@ -335,5 +336,14 @@ bool tessellator::perform(const std::string& outputFileName)
     cout<<"Mesh healing started"<<endl;
     healingProcess->start();
     bool isDone = healingProcess->waitForFinished(-1);
-    return isDone;
+    return isDone
+    */
+
+    //! -----------------------------------------------
+    //! use system - redirect ADMesh output to console
+    //! -----------------------------------------------
+    std::string command = pathOfADMesh+" "+absoluteOutputFilePath+" -a "+absoluteOutputFilePath_H;
+    int exitCode = system(command.c_str());
+    exit(10);
+    return exitCode;
 }

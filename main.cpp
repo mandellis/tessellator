@@ -75,6 +75,7 @@ int main(int argc, char *argv[])
         tessellator aTessellator(inputFile);
         aTessellator.setMeshingParameters(mp);
         aTessellator.perform(outputFile);
+        return a.exit(0);
     }
         break;
 
@@ -142,6 +143,7 @@ int main(int argc, char *argv[])
             tessellator aTessellator(inputFile);
             aTessellator.setMeshingParameters(mp);
             aTessellator.perform(outputFile);
+            return a.exit(0);
         }
     }
         break;
@@ -290,6 +292,7 @@ int main(int argc, char *argv[])
             tessellator aTessellator(inputFile);
             aTessellator.setMeshingParameters(mp);
             aTessellator.perform(outputFile);
+            return a.exit(0);
         }
         else
         {
@@ -391,6 +394,7 @@ int main(int argc, char *argv[])
             tessellator aTessellator(inputFile);
             aTessellator.setMeshingParameters(mp);
             aTessellator.perform(outputFile);
+            return a.exit(0);
         }
         else
         {
@@ -401,7 +405,7 @@ int main(int argc, char *argv[])
         break;
     }
 
-    return a.exec();
+    //return a.exec();
 }
 
 //! ---------------------
@@ -409,9 +413,15 @@ int main(int argc, char *argv[])
 //! ---------------------
 void printUsage()
 {
+    cout<<"******************************************************"<<endl;
     cout<<"usage: "<<endl;
     cout<<"-i <input file>"<<endl;
-    cout<<"-o <output file>"<<endl;
+    cout<<"-ld <value> [linear deflection value - optional]"<<endl;
+    cout<<"-ad <value> [angular deflection value - optional]"<<endl;
+    cout<<"-ir Y/N [is relative parameter - optional]"<<endl;
+    cout<<endl<<"The ouput files are: <input file>.stl (raw .stl file)"<<endl;
+    cout<<"<input file>_H.stl (corrected tessellation>"<<endl;
+    cout<<"******************************************************"<<endl;
 }
 
 //! ---------------------------

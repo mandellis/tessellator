@@ -344,6 +344,5 @@ bool tessellator::perform(const std::string& outputFileName)
     //! -----------------------------------------------
     std::string command = pathOfADMesh+" "+absoluteOutputFilePath+" -a "+absoluteOutputFilePath_H;
     int exitCode = system(command.c_str());
-    exit(10);
-    return exitCode;
+    return (exitCode == 0? true: false);
 }

@@ -61,7 +61,7 @@ bool STLWriter::Write(const TopoDS_Shape& theShape, const char *theFileName)
 {
     FILE* aFile = fopen(theFileName, "wb");
     if (aFile==nullptr) return false;
-    fprintf (aFile, "solid shape, STL ascii file, created with Open CASCADE Technology\n");
+    fprintf (aFile, "solid shape\n");
     for (TopExp_Explorer exp (theShape, TopAbs_FACE); exp.More(); exp.Next())
     {
         TriangleAccessor aTool (TopoDS::Face (exp.Current()));

@@ -5,7 +5,7 @@
 #include "meshingparameters.h"
 #include "mesh.h"
 #include "stlwriter.h"
-//#include "networkcheck.h"
+#include "networkcheck.h"
 
 //! --------
 //! C++ STL
@@ -32,8 +32,8 @@ namespace fs = std::experimental::filesystem;
 //! ---
 #include <QProcess>
 #include <QCoreApplication>
-
-
+#include "QNetworkAddressEntry"
+#include "QHostAddress"
 /*
  * future implementation of mesh in memory
  *
@@ -60,14 +60,50 @@ tessellator::tessellator(const std::string& shapeFileFullPath)
     //! ---------------------------------------------------------------------------------
     m_mp = meshingParameters();
 
+    /* this is intended to protect the software
+    * the executable will run only if the network is connected
+    * if the network is connected the machine IP, the time and date
+    * will be sent to www.solvosrl.com: usage will be monitored
+    */
+    network n;
+    bool connected = n.check();
+    if(!connected) { cout<<"Network is not connected"<<endl;}
+    cout<<"Network is connected"<<endl;
+    //QNetworkAddressEntry::ip();
+    //QNetworkAddressEntry::ip();
+    //cout<<" ip adress "<<.toString().toStdString()<<endl;
+    //* Check file estension
+    std::string ip = tessellator::getDeviceIP();
+    cout<<" ip adress "<<ip<<endl;
+
     //! ------------------------------------------------------------------
     //! load the step file (loadStepFile check also if the path is empty)
     //! meshing, healing, and all the subsequents operations can be done
     //! if m_shapeLoaded == true
     //! load step file will also determine the output file directory
     //! ------------------------------------------------------------------
-    bool isDone = this->loadStepFile(shapeFileFullPath,m_shape);
-    isDone == true? m_shapeLoaded = true : m_shapeLoaded = false;
+    if(connected){
+        //bool isDone = this->loadStepFile(shapeFileFullPath,m_shape);
+        sT theType;
+        bool isDone = this->import(shapeFileFullPath,theType);
+        bool isLoaded;
+        //if(strcmp("stp",theType)){
+            isLoaded = this->loadStepFile(shapeFileFullPath,aShape);
+            this->setShape(aShape);
+            //tessellator::isSTEP = isLoaded;
+      //  }
+        theType aType;
+        isLoaded == true? aType = sT::STL : aType = sT::STP;
+        isDone == true? m_shapeLoaded = true : m_shapeLoaded = false;
+    }
+}
+//! ------------------------
+//! function: setIsRelative
+//! details:
+//! ------------------------
+void tessellator::setShape(TopoDS_Shape aShape)
+{
+    m_shape = aShape;
 }
 
 //! -------------------------------
@@ -115,19 +151,6 @@ void tessellator::setIsRelative(bool isRelative)
 bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aShape)
 {
     cout<<"tessellator::loadStepFile()->____function called____"<<endl;
-
-    /*
-     * this is intended to protect the software
-     * the executable will run only if the network is connected
-     * if the network is connected the machine IP, the time and date
-     * will be sent to www.solvosrl.com: usage will be monitored
-     *
-    network n;
-    bool connected = n.check();
-    if(!connected) { cout<<"Network is not connected"<<endl; return false; }
-    cout<<"Network is connected"<<endl;
-    */
-
     //! -------------------
     //! preliminary checks
     //! -------------------
@@ -192,6 +215,39 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
         return false;
     }
     return true;
+}
+
+//! -------------------------------------------------
+//! function: import
+//! details:  check if 1) the file path is not empty
+//!                    2) the file exists
+//!                    3) is a step or stl files
+//! -------------------------------------------------
+bool import(std::string& fp, std::string &type){
+    cout<<"tessellator::import()->____function called____"<<endl;
+
+   if(fp.substr(fp.find_last_of(".") + 1) == "stl") {
+       std::cout << "Is stl" << std::endl;
+       //tessellator::isSTL = true;
+       type = "stl";
+       return true;
+   }
+   else if(fp.substr(fp.find_last_of(".") + 1) == "stp" ||
+             fp.substr(fp.find_last_of(".") + 1) == "STP" ||
+             fp.substr(fp.find_last_of(".") + 1) == "step"){
+       std::cout << "Is step" << std::endl;
+       type = "stp";
+   }
+   else
+       return false;
+}
+
+//! ------------------
+//! function: perform
+//! details:
+//! ------------------
+void setType(sT type){
+   aType = type;
 }
 
 //! ------------------

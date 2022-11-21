@@ -3,7 +3,7 @@
 //! ----------------
 #include "tessellator.h"
 #include "meshingparameters.h"
-#include "mesh.h"
+//#include "mesh.h"
 #include "stlwriter.h"
 #include "networkcheck.h"
 
@@ -73,8 +73,8 @@ tessellator::tessellator(const std::string& shapeFileFullPath)
     //QNetworkAddressEntry::ip();
     //cout<<" ip adress "<<.toString().toStdString()<<endl;
     //* Check file estension
-    std::string ip = tessellator::getDeviceIP();
-    cout<<" ip adress "<<ip<<endl;
+    //std::string ip = tessellator::getDeviceIP();
+    //cout<<" ip adress "<<ip<<endl;
 
     //! ------------------------------------------------------------------
     //! load the step file (loadStepFile check also if the path is empty)
@@ -84,19 +84,47 @@ tessellator::tessellator(const std::string& shapeFileFullPath)
     //! ------------------------------------------------------------------
     if(connected){
         //bool isDone = this->loadStepFile(shapeFileFullPath,m_shape);
-        sT theType;
-        bool isDone = this->import(shapeFileFullPath,theType);
+        formatType aType;
+        aType = this->import(shapeFileFullPath);
+        this->setFormat(aType);
         bool isLoaded;
-        //if(strcmp("stp",theType)){
+        TopoDS_Shape aShape;
+
+        switch (aType) {
+        case formatType::STP :{
             isLoaded = this->loadStepFile(shapeFileFullPath,aShape);
             this->setShape(aShape);
-            //tessellator::isSTEP = isLoaded;
-      //  }
-        theType aType;
-        isLoaded == true? aType = sT::STL : aType = sT::STP;
-        isDone == true? m_shapeLoaded = true : m_shapeLoaded = false;
+            m_shapeLoaded = true;
+        }
+            break;
+        case formatType::STL :{
+            isLoaded = true;
+            m_shapeLoaded = true;
+        }
+            break;
+        case formatType::NONE :{
+            isLoaded = false;
+            m_shapeLoaded = false;
+        }
+            break;
+        default:
+            isLoaded = false;
+            m_shapeLoaded = false;
+            break;
+        }
     }
 }
+
+
+//! ------------------------
+//! function: setFormat
+//! details:
+//! ------------------------
+void tessellator::setFormat(formatType aType)
+{
+    mType = aType;
+}
+
 //! ------------------------
 //! function: setIsRelative
 //! details:
@@ -223,31 +251,31 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
 //!                    2) the file exists
 //!                    3) is a step or stl files
 //! -------------------------------------------------
-bool import(std::string& fp, std::string &type){
+tessellator::formatType  tessellator::import(const std::string& fp){
     cout<<"tessellator::import()->____function called____"<<endl;
-
-   if(fp.substr(fp.find_last_of(".") + 1) == "stl") {
-       std::cout << "Is stl" << std::endl;
-       //tessellator::isSTL = true;
-       type = "stl";
-       return true;
-   }
-   else if(fp.substr(fp.find_last_of(".") + 1) == "stp" ||
-             fp.substr(fp.find_last_of(".") + 1) == "STP" ||
-             fp.substr(fp.find_last_of(".") + 1) == "step"){
-       std::cout << "Is step" << std::endl;
-       type = "stp";
-   }
-   else
-       return false;
-}
-
-//! ------------------
-//! function: perform
-//! details:
-//! ------------------
-void setType(sT type){
-   aType = type;
+    //std::string name;
+    std::string ext;
+    size_t dot = fp.find_last_of(".");
+    if (dot != std::string::npos)
+    {
+        //name = fp.substr(0, dot);
+        ext  = fp.substr(dot, fp.size() - dot);
+    }
+    //  std::string stl = "stl";
+    // std::string stp = "stp";
+    if( ext.compare("stl")) {
+        cout << "Is stl" << endl;
+        return formatType::STL;
+    }
+    if(ext.compare("stp") ||
+            ext.compare("step") ||
+            ext.compare("STEP")||
+            ext.compare("STP")){
+        cout << "Is step" << endl;
+        return formatType::STP;
+    }
+    else
+        return formatType::NONE;
 }
 
 //! ------------------
@@ -263,7 +291,13 @@ bool tessellator::perform(const std::string& outputFileName)
         cout<<"tessellator::perform()->____the shape has not been loaded____"<<endl;
         return false;
     }
+    switch (mType) {
+    case formatType::STL :
 
+        break;
+    default:
+        break;
+    }
     //! -----------------------------------------------
     //! clear the default triangulation from the shape
     //! -----------------------------------------------

@@ -32,6 +32,7 @@ namespace fs = std::experimental::filesystem;
 //! ---
 #include <QProcess>
 #include <QCoreApplication>
+#include <QFile>
 
 
 /*
@@ -53,23 +54,32 @@ namespace fs = std::experimental::filesystem;
 //! ----------------------
 tessellator::tessellator(const std::string& shapeFileFullPath)
 {
-    //cout<<"tessellator::tessellator()->____constructor called____"<<endl;
+    /*
+     * this is intended to protect the software
+     * the executable will run only if the network is connected
+     * if the network is connected the machine IP, the time and date
+     * will be sent to www.solvosrl.com: usage will be monitored
+     *
+    network n;
+    bool connected = n.check();
+    if(!connected) { cout<<"Network is not connected"<<endl; return false; }
+    cout<<"Network is connected"<<endl;
+    */
 
     //! ---------------------------------------------------------------------------------
     //! init meshing parameters - use the default constructor of meshingParameters class
     //! ---------------------------------------------------------------------------------
     m_mp = meshingParameters();
 
-    //format aType;
+    //! ------------------------------------------------------------------
+    //! import the input file - STL or STEP
+    //! ------------------------------------------------------------------
     formatType = this->import(shapeFileFullPath);
 
     //! ------------------------------------------------------------------
-    //! load the step file (loadStepFile check also if the path is empty)
     //! meshing, healing, and all the subsequents operations can be done
     //! if m_shapeLoaded == true
-    //! load step file will also determine the output file directory
     //! ------------------------------------------------------------------
-    //bool isDone = this->loadStepFile(shapeFileFullPath,m_shape);
     switch (formatType) {
     case format::STL:
         m_shapeLoaded = true;
@@ -84,7 +94,6 @@ tessellator::tessellator(const std::string& shapeFileFullPath)
         m_shapeLoaded = false;
         break;
     }
-    //isDone == true? m_shapeLoaded = true : m_shapeLoaded = false;
 }
 
 //! -------------------------------
@@ -93,8 +102,6 @@ tessellator::tessellator(const std::string& shapeFileFullPath)
 //! -------------------------------
 tessellator::format tessellator::import(const std::string& fp)
 {
-    cout<<"tessellator::import()->____function called____"<<endl;
-
     //! ---------------------------------------------------
     //! absolute input file path and output file directory
     //! ---------------------------------------------------
@@ -109,34 +116,18 @@ tessellator::format tessellator::import(const std::string& fp)
 
     m_outputFileDirectory = m_absoluteInputFilePath;
     for(int i=0; i<NbChars; i++) m_outputFileDirectory.pop_back();
-    cout<<"input file : "<<fp<<endl;
-    cout<<"output file directory: "<<m_outputFileDirectory<<endl;
 
-    /*
-     * this is intended to protect the software
-     * the executable will run only if the network is connected
-     * if the network is connected the machine IP, the time and date
-     * will be sent to www.solvosrl.com: usage will be monitored
-     *
-    network n;
-    bool connected = n.check();
-    if(!connected) { cout<<"Network is not connected"<<endl; return false; }
-    cout<<"Network is connected"<<endl;
-    */
        std::string ext;
        size_t dot = fp.find_last_of(".");
        if (dot != std::string::npos)
            ext  = fp.substr(dot, fp.size() - dot);
-       cout<<" extension is "<<ext<<endl;
       if( ext.compare(".stl")==0) {
-           cout << "Is stl" << endl;
            return format::STL;
        }
        if(ext.compare(".stp")==0 ||
                ext.compare(".step")==0 ||
                ext.compare(".STEP")==0||
                ext.compare(".STP")==0){
-           cout << "Is step" << endl;
            bool isDone = this->loadStepFile(fp,m_shape);
            if (isDone) return format::STEP;
            else return format::NONE;
@@ -181,6 +172,30 @@ void tessellator::setIsRelative(bool isRelative)
     m_mp.setIsRelative(isRelative);
 }
 
+//! -----------------------------
+//! function: read AdMesh Output
+//! details:
+//! -----------------------------
+bool tessellator::readOutput(std::string& filePath){
+
+    ifstream of;
+    of.open(filePath,ios::in);
+
+    if(of.is_open())
+    {
+        int count=0;
+        string tp;
+        while(getline(of,tp)){
+            count++;
+            if(count<4) continue;
+            if(count==15 || count==16 ||
+                    count==17 || count==18) continue;
+            cout<<count<<" "<<tp<<endl;
+        }
+        return true;
+    }
+    else return false;
+}
 //! -------------------------------------------------
 //! function: readStepFile
 //! details:  check if 1) the file path is not empty
@@ -197,23 +212,7 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
     if(stepFilePath.empty()) return false;
     bool fileExists = fs::exists(stepFilePath);
     if(!fileExists) return false;
-/*
-    //! ---------------------------------------------------
-    //! absolute input file path and output file directory
-    //! ---------------------------------------------------
-    m_absoluteInputFilePath = fs::absolute(fs::path(stepFilePath)).string();
 
-    std::stringstream ss(m_absoluteInputFilePath);
-    std::vector<std::string> chunkList;
-    std::string chunk;
-    while(std::getline(ss, chunk, '\\')) chunkList.push_back(chunk);
-    int NbChunks = static_cast<int>(chunkList.size());
-    int NbChars = static_cast<int>(chunkList.at(NbChunks-1).size());
-
-    m_outputFileDirectory = m_absoluteInputFilePath;
-    for(int i=0; i<NbChars; i++) m_outputFileDirectory.pop_back();
-    cout<<"output file directory: "<<m_outputFileDirectory<<endl;
-*/
     //! ------------------------
     //! opencascade step reader
     //! ------------------------
@@ -263,11 +262,9 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
 //! ------------------
 bool tessellator::perform(const std::string& outputFileName)
 {
-    cout<<"tessellator::perform()->____function called____"<<endl;
-
     if(!m_shapeLoaded)
     {
-        cout<<"tessellator::perform()->____the shape has not been loaded____"<<endl;
+        cout<<"____the shape has not been loaded____"<<endl;
         return false;
     }
 
@@ -277,11 +274,11 @@ bool tessellator::perform(const std::string& outputFileName)
 
     switch (formatType) {
     case format::STL:
-        cout<<"working on STL file: skipping stl generation"<<endl;
+        cout<<"Working on STL file: skip stl generation"<<endl;
         break;
     case format::STEP:
     {
-        cout<<"working on Step file: stl extraction"<<endl;
+        cout<<"Working on STEP file: stl extraction"<<endl;
 
         //! -----------------------------------------------
         //! clear the default triangulation from the shape
@@ -395,32 +392,45 @@ bool tessellator::perform(const std::string& outputFileName)
     //! -----------------------------------------------------------
 
     std::string pathOfExecutable = QCoreApplication::applicationDirPath().toStdString();
-    std::string pathOfADMesh = pathOfExecutable+"\\ADMesh.exe";
+    std::string pathOfADMesh = pathOfExecutable+"\\Admesh.exe";
     std::string absoluteOutputFilePath_H = absoluteOutputFilePath;
     for(int i=0; i<4; i++) absoluteOutputFilePath_H.pop_back();
     absoluteOutputFilePath_H += "_H.stl";
     cout<<"Full path of the corrected tessellation: "<<absoluteOutputFilePath_H<<endl;
 
-    /*
-     * use QProcess
-     *
+    //! -------------
+    //! use QProcess
+    //! -------------
+    std::string admeshout = "adout.txt";
+
     std::shared_ptr<QProcess> healingProcess = std::make_shared<QProcess>();
     healingProcess->setProgram(QString::fromStdString(pathOfADMesh));
     cout<<"Absolute input file path: "<<m_absoluteInputFilePath<<endl;
     QStringList arguments;
     arguments<<QString::fromStdString(absoluteOutputFilePath)<<QString("-a")<<QString::fromStdString(absoluteOutputFilePath_H);
     healingProcess->setArguments(arguments);
-
+    healingProcess->setStandardOutputFile(QString::fromStdString(admeshout));
     cout<<"Mesh healing started"<<endl;
     healingProcess->start();
-    bool isDone = healingProcess->waitForFinished(-1);
-    return isDone
-    */
+  //  bool isDone = healingProcess->waitForFinished(-1);
+    QFile f(QString::fromStdString(absoluteOutputFilePath_H));
+   // bool isNotDone;
+   // if(f.exists())
+        //isDone = true;
+bool isDone=true;
+    //bool isNotDone = absoluteOutputFilePath_H.empty();
+std::string out;
+    isDone==1? out="Mesh healing completed " : out="Mesh healing failed ";
+    cout<<out<<endl;
+   // isNotDone==1? cout<<"Mesh healing completed "<<endl : cout<<"Mesh healing failed "<<endl;
+
+    if(isDone) this->readOutput(pathOfExecutable+"\\"+admeshout);
+    return isDone;
 
     //! -----------------------------------------------
     //! use system - redirect ADMesh output to console
     //! -----------------------------------------------
-    std::string command = pathOfADMesh+" "+absoluteOutputFilePath+" -a "+absoluteOutputFilePath_H;
-    int exitCode = system(command.c_str());
-    return (exitCode == 0? true: false);
+    //std::string command = pathOfADMesh+" "+absoluteOutputFilePath+" -a "+absoluteOutputFilePath_H;
+    //int exitCode = system(command.c_str());
+    //return (exitCode == 0? true: false);
 }

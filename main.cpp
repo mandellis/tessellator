@@ -467,14 +467,11 @@ bool inputFileNameToOutputFileName(char* inputFileName, std::string& outputFileN
     //! the input file exists: now check the extension
     //! -----------------------------------------------
     cout<<"Input file found"<<endl;
-    //printArgumentsOK();
-    //int len = static_cast<int>(strlen(inputFileName));
     //! ----------------
     //! parse extension
     //! ----------------
-    //int len = static_cast<int>(strlen(inputFileName));
     std::string ext,ifn;
-    ifn = inputFileName; //(len,inputFileName);
+    ifn = inputFileName;
     size_t dot = ifn.find_last_of(".");
     if (dot != std::string::npos)
     {
@@ -486,41 +483,12 @@ bool inputFileNameToOutputFileName(char* inputFileName, std::string& outputFileN
         cout<<"invalid input file"<<endl;
         return false;
     }
-    cout<<"extension is "<<ext<<endl;
-    //! take five chars from the end
-    //std::string extension1;
-    /*for(int i=5; i>0; i--)
-    {
-        extension1.push_back(inputFileName[len-i]);
-        //cout<<extension1<<endl;
-    }
-    //! take four chars from the end
-    std::string extension2;
-    for(int i=4; i>0; i--)
-    {
-        extension2.push_back(inputFileName[len-i]);
-        //cout<<extension2<<endl;
-    }
-
-    if(extension1!=".step" && extension1!=".STEP" && extension2!=".stp" && extension2!=".STP"
-            && extension1!=".stl" && extension1!=".STL")
-    {
-        cout<<"invalid input file"<<endl;
-        return false;
-    }*/
+    cout<<"File is "<<ext<<" file"<<endl;
     printArgumentsOK();
 
     //! -------------------------------------
     //! generate the name of the output file
     //! -------------------------------------
-    //outputFileName = std::string(inputFileName);
-    //int count = 0;
-    //if(extension1==".step" || extension1==".STEP") count = 5;
-    //if(extension2==".stp" || extension2 ==".STP") count = 4;
-    //if(extension1==".stl" || extension1==".STL") count = 4;
-    //if(extension2==".stl" || extension2==".STL") count = 4;
-
-    //for(int i=0; i<count; i++) outputFileName.pop_back();
     outputFileName.append(".stl");
     cout<<"Output file name: "<<outputFileName<<endl;
     return true;

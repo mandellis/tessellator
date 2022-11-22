@@ -37,5 +37,5 @@ private:
 bool Write(const TopoDS_Shape& aShape, const char* aFileName);
 
 //! end namespace
-};
+}
 #endif // STLWRITER_H

@@ -18,9 +18,16 @@
 
 class tessellator
 {
+public:
+    enum format{
+        STL,
+        STEP,
+        NONE
+    };
 
 private:
 
+    format  formatType;
     TopoDS_Shape m_shape;
     meshingParameters m_mp;
     bool m_shapeLoaded;
@@ -30,6 +37,7 @@ private:
 private:
 
     bool loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aShape);
+    format import(const std::string& fp = "");
 
 public:
 

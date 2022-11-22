@@ -60,14 +60,89 @@ tessellator::tessellator(const std::string& shapeFileFullPath)
     //! ---------------------------------------------------------------------------------
     m_mp = meshingParameters();
 
+    //format aType;
+    formatType = this->import(shapeFileFullPath);
+
     //! ------------------------------------------------------------------
     //! load the step file (loadStepFile check also if the path is empty)
     //! meshing, healing, and all the subsequents operations can be done
     //! if m_shapeLoaded == true
     //! load step file will also determine the output file directory
     //! ------------------------------------------------------------------
-    bool isDone = this->loadStepFile(shapeFileFullPath,m_shape);
-    isDone == true? m_shapeLoaded = true : m_shapeLoaded = false;
+    //bool isDone = this->loadStepFile(shapeFileFullPath,m_shape);
+    switch (formatType) {
+    case format::STL:
+        m_shapeLoaded = true;
+        break;
+    case format::STEP:
+        m_shapeLoaded = true;
+        break;
+    case format::NONE:
+        m_shapeLoaded = false;
+        break;
+    default:
+        m_shapeLoaded = false;
+        break;
+    }
+    //isDone == true? m_shapeLoaded = true : m_shapeLoaded = false;
+}
+
+//! -------------------------------
+//! function: import
+//! details:
+//! -------------------------------
+tessellator::format tessellator::import(const std::string& fp)
+{
+    cout<<"tessellator::import()->____function called____"<<endl;
+
+    //! ---------------------------------------------------
+    //! absolute input file path and output file directory
+    //! ---------------------------------------------------
+    m_absoluteInputFilePath = fs::absolute(fs::path(fp)).string();
+
+    std::stringstream ss(m_absoluteInputFilePath);
+    std::vector<std::string> chunkList;
+    std::string chunk;
+    while(std::getline(ss, chunk, '\\')) chunkList.push_back(chunk);
+    int NbChunks = static_cast<int>(chunkList.size());
+    int NbChars = static_cast<int>(chunkList.at(NbChunks-1).size());
+
+    m_outputFileDirectory = m_absoluteInputFilePath;
+    for(int i=0; i<NbChars; i++) m_outputFileDirectory.pop_back();
+    cout<<"input file : "<<fp<<endl;
+    cout<<"output file directory: "<<m_outputFileDirectory<<endl;
+
+    /*
+     * this is intended to protect the software
+     * the executable will run only if the network is connected
+     * if the network is connected the machine IP, the time and date
+     * will be sent to www.solvosrl.com: usage will be monitored
+     *
+    network n;
+    bool connected = n.check();
+    if(!connected) { cout<<"Network is not connected"<<endl; return false; }
+    cout<<"Network is connected"<<endl;
+    */
+       std::string ext;
+       size_t dot = fp.find_last_of(".");
+       if (dot != std::string::npos)
+           ext  = fp.substr(dot, fp.size() - dot);
+       cout<<" extension is "<<ext<<endl;
+      if( ext.compare(".stl")==0) {
+           cout << "Is stl" << endl;
+           return format::STL;
+       }
+       if(ext.compare(".stp")==0 ||
+               ext.compare(".step")==0 ||
+               ext.compare(".STEP")==0||
+               ext.compare(".STP")==0){
+           cout << "Is step" << endl;
+           bool isDone = this->loadStepFile(fp,m_shape);
+           if (isDone) return format::STEP;
+           else return format::NONE;
+       }
+       else
+           return format::NONE; ;
 }
 
 //! -------------------------------
@@ -116,25 +191,13 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
 {
     cout<<"tessellator::loadStepFile()->____function called____"<<endl;
 
-    /*
-     * this is intended to protect the software
-     * the executable will run only if the network is connected
-     * if the network is connected the machine IP, the time and date
-     * will be sent to www.solvosrl.com: usage will be monitored
-     *
-    network n;
-    bool connected = n.check();
-    if(!connected) { cout<<"Network is not connected"<<endl; return false; }
-    cout<<"Network is connected"<<endl;
-    */
-
     //! -------------------
     //! preliminary checks
     //! -------------------
     if(stepFilePath.empty()) return false;
     bool fileExists = fs::exists(stepFilePath);
     if(!fileExists) return false;
-
+/*
     //! ---------------------------------------------------
     //! absolute input file path and output file directory
     //! ---------------------------------------------------
@@ -150,7 +213,7 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
     m_outputFileDirectory = m_absoluteInputFilePath;
     for(int i=0; i<NbChars; i++) m_outputFileDirectory.pop_back();
     cout<<"output file directory: "<<m_outputFileDirectory<<endl;
-
+*/
     //! ------------------------
     //! opencascade step reader
     //! ------------------------
@@ -208,103 +271,118 @@ bool tessellator::perform(const std::string& outputFileName)
         return false;
     }
 
-    //! -----------------------------------------------
-    //! clear the default triangulation from the shape
-    //! -----------------------------------------------
-    BRepTools::Clean(m_shape);
-
-    //! -------------------------------------
-    //! set the parameters of the OCC mesher
-    //! -------------------------------------
-    BRepMesh_IncrementalMesh aMesher;
-    aMesher.ChangeParameters().Angle = m_mp.angDefl();
-    aMesher.ChangeParameters().Deflection = m_mp.linDefl();
-    aMesher.ChangeParameters().Relative = m_mp.isRel();
-
-    aMesher.ChangeParameters().AdaptiveMin = false;                 //! default option for BRepMesh_IncrementalMesh
-    aMesher.ChangeParameters().InternalVerticesMode = false;        //! the meaning is clear from the documentation
-    aMesher.ChangeParameters().ControlSurfaceDeflection = true;     //! to be studied
-    aMesher.ChangeParameters().InParallel = true;                   //! forced to be true
-
-    aMesher.SetShape(m_shape);
-    aMesher.Perform();
-
-    /*{
-        //! --------------------------------------------------
-        //! retrieve the triangulation - scan the model faces
-        //! --------------------------------------------------
-        std::set<mesh::point> meshPointsSet;
-        std::map<int,mesh::point> meshPointsMap;
-        std::set<mesh::element> meshElementsSet;
-
-        int nodeID = 0;
-        TopExp_Explorer anExp;
-        for(anExp.Init(m_shape,TopAbs_FACE); anExp.More(); anExp.Next())
-        {
-            TopoDS_Face curFace = TopoDS::Face(anExp.Current());
-            if(curFace.IsNull()) continue;
-            TopLoc_Location loc;
-            const opencascade::handle<Poly_Triangulation>& aFaceTriangulation = BRep_Tool::Triangulation(curFace,loc);
-            const Poly_Array1OfTriangle& triangles = aFaceTriangulation->Triangles();
-            for(int triangleID = 1; triangleID<=triangles.Size(); triangleID++)
-            {
-                mesh::element aMeshElement;
-                const Poly_Triangle& aTriangle = triangles.Value(triangleID);
-                int N1,N2,N3;
-                aTriangle.Get(N1,N2,N3);
-                const gp_Pnt& P1 = aFaceTriangulation->Node(N1);
-                const gp_Pnt& P2 = aFaceTriangulation->Node(N2);
-                const gp_Pnt& P3 = aFaceTriangulation->Node(N3);
-
-                mesh::point MP1(P1.X(),P1.Y(),P1.Z());
-                std::set<mesh::point>::iterator it = meshPointsSet.find(MP1);
-                if(it==meshPointsSet.end())
-                {
-                    MP1.setID(++nodeID);
-                    meshPointsMap.insert(std::make_pair(nodeID,MP1));
-                    aMeshElement.addNode(MP1);
-                }
-                else
-                {
-                    aMeshElement.addNode(*it);
-                }
-                mesh::point MP2(P2.X(),P2.Y(),P2.Z());
-                it = meshPointsSet.find(MP2);
-                if(it==meshPointsSet.end())
-                {
-                    MP2.setID(++nodeID);
-                    meshPointsMap.insert(std::make_pair(nodeID,MP2));
-                    aMeshElement.addNode(MP2);
-                }
-                else
-                {
-                    aMeshElement.addNode(*it);
-                }
-                mesh::point MP3(P3.X(),P3.Y(),P3.Z());
-                it = meshPointsSet.find(MP3);
-                if(it==meshPointsSet.end())
-                {
-                    MP3.setID(++nodeID);
-                    meshPointsMap.insert(std::make_pair(nodeID,MP3));
-                    aMeshElement.addNode(MP3);
-                }
-                else
-                {
-                    aMeshElement.addNode(*it);
-                }
-
-                //! check if the element already exists
-
-            }
-        }
-    }*/
-
-    //! ----------------------------------
-    //! Write the .stl file as is on disk
-    //! ----------------------------------
+    //! Absolute file path
     std::string absoluteOutputFilePath = m_outputFileDirectory+outputFileName;
     cout<<"Absolute output file path: "<<absoluteOutputFilePath<<endl;
-    STLWriter::Write(m_shape,absoluteOutputFilePath.c_str());
+
+    switch (formatType) {
+    case format::STL:
+        cout<<"working on STL file: skipping stl generation"<<endl;
+        break;
+    case format::STEP:
+    {
+        cout<<"working on Step file: stl extraction"<<endl;
+
+        //! -----------------------------------------------
+        //! clear the default triangulation from the shape
+        //! -----------------------------------------------
+        BRepTools::Clean(m_shape);
+
+        //! -------------------------------------
+        //! set the parameters of the OCC mesher
+        //! -------------------------------------
+        BRepMesh_IncrementalMesh aMesher;
+        aMesher.ChangeParameters().Angle = m_mp.angDefl();
+        aMesher.ChangeParameters().Deflection = m_mp.linDefl();
+        aMesher.ChangeParameters().Relative = m_mp.isRel();
+
+        aMesher.ChangeParameters().AdaptiveMin = false;                 //! default option for BRepMesh_IncrementalMesh
+        aMesher.ChangeParameters().InternalVerticesMode = false;        //! the meaning is clear from the documentation
+        aMesher.ChangeParameters().ControlSurfaceDeflection = true;     //! to be studied
+        aMesher.ChangeParameters().InParallel = true;                   //! forced to be true
+
+        aMesher.SetShape(m_shape);
+        aMesher.Perform();
+
+        /*{
+            //! --------------------------------------------------
+            //! retrieve the triangulation - scan the model faces
+            //! --------------------------------------------------
+            std::set<mesh::point> meshPointsSet;
+            std::map<int,mesh::point> meshPointsMap;
+            std::set<mesh::element> meshElementsSet;
+
+            int nodeID = 0;
+            TopExp_Explorer anExp;
+            for(anExp.Init(m_shape,TopAbs_FACE); anExp.More(); anExp.Next())
+            {
+                TopoDS_Face curFace = TopoDS::Face(anExp.Current());
+                if(curFace.IsNull()) continue;
+                TopLoc_Location loc;
+                const opencascade::handle<Poly_Triangulation>& aFaceTriangulation = BRep_Tool::Triangulation(curFace,loc);
+                const Poly_Array1OfTriangle& triangles = aFaceTriangulation->Triangles();
+                for(int triangleID = 1; triangleID<=triangles.Size(); triangleID++)
+                {
+                    mesh::element aMeshElement;
+                    const Poly_Triangle& aTriangle = triangles.Value(triangleID);
+                    int N1,N2,N3;
+                    aTriangle.Get(N1,N2,N3);
+                    const gp_Pnt& P1 = aFaceTriangulation->Node(N1);
+                    const gp_Pnt& P2 = aFaceTriangulation->Node(N2);
+                    const gp_Pnt& P3 = aFaceTriangulation->Node(N3);
+
+                    mesh::point MP1(P1.X(),P1.Y(),P1.Z());
+                    std::set<mesh::point>::iterator it = meshPointsSet.find(MP1);
+                    if(it==meshPointsSet.end())
+                    {
+                        MP1.setID(++nodeID);
+                        meshPointsMap.insert(std::make_pair(nodeID,MP1));
+                        aMeshElement.addNode(MP1);
+                    }
+                    else
+                    {
+                        aMeshElement.addNode(*it);
+                    }
+                    mesh::point MP2(P2.X(),P2.Y(),P2.Z());
+                    it = meshPointsSet.find(MP2);
+                    if(it==meshPointsSet.end())
+                    {
+                        MP2.setID(++nodeID);
+                        meshPointsMap.insert(std::make_pair(nodeID,MP2));
+                        aMeshElement.addNode(MP2);
+                    }
+                    else
+                    {
+                        aMeshElement.addNode(*it);
+                    }
+                    mesh::point MP3(P3.X(),P3.Y(),P3.Z());
+                    it = meshPointsSet.find(MP3);
+                    if(it==meshPointsSet.end())
+                    {
+                        MP3.setID(++nodeID);
+                        meshPointsMap.insert(std::make_pair(nodeID,MP3));
+                        aMeshElement.addNode(MP3);
+                    }
+                    else
+                    {
+                        aMeshElement.addNode(*it);
+                    }
+
+                    //! check if the element already exists
+
+                }
+            }
+        }*/
+
+        //! ----------------------------------
+        //! Write the .stl file as is on disk
+        //! ----------------------------------
+        STLWriter::Write(m_shape,absoluteOutputFilePath.c_str());
+    }
+        break;
+    default:
+        break;
+    }
 
     //! -----------------------------------------------------------
     //! locate ADMesh and run it with QProcess or system:

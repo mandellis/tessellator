@@ -420,7 +420,7 @@ void printUsage()
     cout<<"-ad <value> [angular deflection value - optional]"<<endl;
     cout<<"-ir Y/N [is relative parameter - optional]"<<endl;
     cout<<endl<<"The ouput files are: <input file>.stl (raw .stl file)"<<endl;
-    cout<<"<input file>_H.stl (corrected tessellation>"<<endl;
+    cout<<"<input file>_H.stl (corrected tessellation)"<<endl;
     cout<<"******************************************************"<<endl;
 }
 
@@ -468,15 +468,28 @@ bool inputFileNameToOutputFileName(char* inputFileName, std::string& outputFileN
     //! -----------------------------------------------
     cout<<"Input file found"<<endl;
     //printArgumentsOK();
-
+    //int len = static_cast<int>(strlen(inputFileName));
     //! ----------------
     //! parse extension
     //! ----------------
-    int len = static_cast<int>(strlen(inputFileName));
-
+    //int len = static_cast<int>(strlen(inputFileName));
+    std::string ext,ifn;
+    ifn = inputFileName; //(len,inputFileName);
+    size_t dot = ifn.find_last_of(".");
+    if (dot != std::string::npos)
+    {
+        outputFileName = ifn.substr(0, dot);
+        ext  = ifn.substr(dot, ifn.size() - dot);
+    }
+    if(ext!=".step" && ext!=".STEP" && ext!=".stp" && ext!=".STP" && ext!=".stl" && ext!=".STL")
+    {
+        cout<<"invalid input file"<<endl;
+        return false;
+    }
+    cout<<"extension is "<<ext<<endl;
     //! take five chars from the end
-    std::string extension1;
-    for(int i=5; i>0; i--)
+    //std::string extension1;
+    /*for(int i=5; i>0; i--)
     {
         extension1.push_back(inputFileName[len-i]);
         //cout<<extension1<<endl;
@@ -489,21 +502,25 @@ bool inputFileNameToOutputFileName(char* inputFileName, std::string& outputFileN
         //cout<<extension2<<endl;
     }
 
-    if(extension1!=".step" && extension1!=".STEP" && extension2!=".stp" && extension2!=".STP")
+    if(extension1!=".step" && extension1!=".STEP" && extension2!=".stp" && extension2!=".STP"
+            && extension1!=".stl" && extension1!=".STL")
     {
         cout<<"invalid input file"<<endl;
         return false;
-    }
+    }*/
     printArgumentsOK();
 
     //! -------------------------------------
     //! generate the name of the output file
     //! -------------------------------------
-    outputFileName = std::string(inputFileName);
-    int count = 0;
-    if(extension1==".step" || extension1==".STEP") count = 5;
-    if(extension2==".stp" || extension2 ==".STP") count = 4;
-    for(int i=0; i<count; i++) outputFileName.pop_back();
+    //outputFileName = std::string(inputFileName);
+    //int count = 0;
+    //if(extension1==".step" || extension1==".STEP") count = 5;
+    //if(extension2==".stp" || extension2 ==".STP") count = 4;
+    //if(extension1==".stl" || extension1==".STL") count = 4;
+    //if(extension2==".stl" || extension2==".STL") count = 4;
+
+    //for(int i=0; i<count; i++) outputFileName.pop_back();
     outputFileName.append(".stl");
     cout<<"Output file name: "<<outputFileName<<endl;
     return true;

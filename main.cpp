@@ -420,7 +420,7 @@ void printUsage()
     cout<<"-ad <value> [angular deflection value - optional]"<<endl;
     cout<<"-ir Y/N [is relative parameter - optional]"<<endl;
     cout<<endl<<"The ouput files are: <input file>.stl (raw .stl file)"<<endl;
-    cout<<"<input file>_H.stl (corrected tessellation>"<<endl;
+    cout<<"<input file>_H.stl (corrected tessellation)"<<endl;
     cout<<"******************************************************"<<endl;
 }
 
@@ -467,44 +467,28 @@ bool inputFileNameToOutputFileName(char* inputFileName, std::string& outputFileN
     //! the input file exists: now check the extension
     //! -----------------------------------------------
     cout<<"Input file found"<<endl;
-    //printArgumentsOK();
-
     //! ----------------
     //! parse extension
     //! ----------------
-    int len = static_cast<int>(strlen(inputFileName));
-
-    //! take five chars from the end
-    std::string extension1;
-    for(int i=5; i>0; i--)
+    std::string ext,ifn;
+    ifn = inputFileName;
+    size_t dot = ifn.find_last_of(".");
+    if (dot != std::string::npos)
     {
-        extension1.push_back(inputFileName[len-i]);
-        //cout<<extension1<<endl;
+        outputFileName = ifn.substr(0, dot);
+        ext  = ifn.substr(dot, ifn.size() - dot);
     }
-    //! take four chars from the end
-    std::string extension2;
-    for(int i=4; i>0; i--)
-    {
-        extension2.push_back(inputFileName[len-i]);
-        //cout<<extension2<<endl;
-    }
-
-    if(extension1!=".step" && extension1!=".STEP" && extension2!=".stp" && extension2!=".STP")
+    if(ext!=".step" && ext!=".STEP" && ext!=".stp" && ext!=".STP" && ext!=".stl" && ext!=".STL")
     {
         cout<<"invalid input file"<<endl;
         return false;
     }
+    cout<<"File is "<<ext<<" file"<<endl;
     printArgumentsOK();
 
     //! -------------------------------------
     //! generate the name of the output file
     //! -------------------------------------
-    outputFileName = std::string(inputFileName);
-    int count = 0;
-    if(extension1==".step" || extension1==".STEP") count = 5;
-    if(extension2==".stp" || extension2 ==".STP") count = 4;
-    for(int i=0; i<count; i++) outputFileName.pop_back();
     outputFileName.append(".stl");
-    cout<<"Output file name: "<<outputFileName<<endl;
     return true;
 }

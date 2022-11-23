@@ -473,12 +473,13 @@ bool inputFileNameToOutputFileName(char* inputFileName, std::string& outputFileN
     std::string ext,ifn;
     ifn = inputFileName;
     size_t dot = ifn.find_last_of(".");
+    size_t sep = ifn.find_last_of("\\");
     if (dot != std::string::npos)
     {
-        outputFileName = ifn.substr(0, dot);
-        ext  = ifn.substr(dot, ifn.size() - dot);
+        ext  = ifn.substr(dot+1, ifn.size() - dot);
+        outputFileName = ifn.substr(sep+1,ifn.size()-sep-ext.size()-2);
     }
-    if(ext!=".step" && ext!=".STEP" && ext!=".stp" && ext!=".STP" && ext!=".stl" && ext!=".STL")
+    if(ext!="step" && ext!="STEP" && ext!="stp" && ext!="STP" && ext!="stl" && ext!="STL")
     {
         cout<<"invalid input file"<<endl;
         return false;

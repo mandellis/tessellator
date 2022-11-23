@@ -490,6 +490,5 @@ bool inputFileNameToOutputFileName(char* inputFileName, std::string& outputFileN
     //! generate the name of the output file
     //! -------------------------------------
     outputFileName.append(".stl");
-    cout<<"Output file name: "<<outputFileName<<endl;
     return true;
 }

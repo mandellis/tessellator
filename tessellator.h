@@ -16,6 +16,11 @@
 //! ----------------
 #include "meshingparameters.h"
 
+//! ----
+//! Qt
+//! ----
+#include <QDate>
+
 class tessellator
 {
 public:
@@ -36,6 +41,7 @@ private:
 
 private:
 
+    bool blockProgram(QDate &date);
     bool readOutput(std::string& filePath);
     bool loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aShape);
     format import(const std::string& fp = "");

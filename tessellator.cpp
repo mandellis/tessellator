@@ -33,8 +33,12 @@ namespace fs = std::experimental::filesystem;
 #include <QProcess>
 #include <QCoreApplication>
 #include <QFile>
-
-
+#include <QDate>
+//#include <qnetwork.h>
+//#include <QNetworkAddressEntry>
+//#include <qhostaddress.h>
+//#include <qtcpsocket.h>
+//#include <qnetworkinterface.h>
 /*
  * future implementation of mesh in memory
  *
@@ -54,18 +58,6 @@ namespace fs = std::experimental::filesystem;
 //! ----------------------
 tessellator::tessellator(const std::string& shapeFileFullPath)
 {
-    /*
-     * this is intended to protect the software
-     * the executable will run only if the network is connected
-     * if the network is connected the machine IP, the time and date
-     * will be sent to www.solvosrl.com: usage will be monitored
-     *
-    network n;
-    bool connected = n.check();
-    if(!connected) { cout<<"Network is not connected"<<endl; return false; }
-    cout<<"Network is connected"<<endl;
-    */
-
     //! ---------------------------------------------------------------------------------
     //! init meshing parameters - use the default constructor of meshingParameters class
     //! ---------------------------------------------------------------------------------
@@ -102,6 +94,56 @@ tessellator::tessellator(const std::string& shapeFileFullPath)
 //! -------------------------------
 tessellator::format tessellator::import(const std::string& fp)
 {
+
+    /*
+     * this is intended to protect the software
+     * the executable will run only if the network is connected
+     * if the network is connected the machine IP, the time and date
+     * will be sent to www.solvosrl.com: usage will be monitored
+     *//*
+    network n;
+    bool connected = n.check();
+    if(!connected) { cout<<"Network is not connected"<<endl; }
+    cout<<"Network is connected"<<endl;
+*//*
+    QTcpSocket dnsTestSocket;
+    QString localIP="127.0.0.1";    //fall back
+    QString googleDns = "8.8.8.83";  //try google DNS or sth. else reliable first
+    dnsTestSocket.connectToHost(googleDns, 53);
+    if (dnsTestSocket.waitForConnected(3000))
+    {
+        localIP = dnsTestSocket.localAddress().toString();
+    }
+    else
+    {
+        foreach (const QHostAddress &address, QNetworkInterface::allAddresses())
+        {
+            QString guessedGatewayAddress = address.toString().section( ".",0,2 ) + ".1";
+
+            if (address.protocol() == QAbstractSocket::IPv4Protocol
+                    && address != QHostAddress(QHostAddress::LocalHost)
+                    )
+            {
+                dnsTestSocket.connectToHost(guessedGatewayAddress, 53);
+                if (dnsTestSocket.waitForConnected(3000))
+                {
+                    localIP = dnsTestSocket.localAddress().toString();
+                    break;
+                }
+            }
+        }
+    }*/
+    //! --------------------------------------
+    //! check date and stop program execution
+    //! --------------------------------------
+    int y,m,d;
+    y = 2022;
+    m=12;
+    d=31;
+    QDate targetDate = QDate::QDate(y,m,d);
+    bool canExecute = this->blockProgram(targetDate);
+    if(!canExecute) return format::NONE;
+
     //! ---------------------------------------------------
     //! absolute input file path and output file directory
     //! ---------------------------------------------------
@@ -180,18 +222,30 @@ bool tessellator::readOutput(std::string& filePath){
 
     ifstream of;
     of.open(filePath,ios::in);
+    std::string astring = "============== Size ==============";
 
     if(of.is_open())
     {
         int count=0;
         string tp;
+        int pos=0;
         while(getline(of,tp)){
             count++;
-            if(count<4) continue;
-            if(count==15 || count==16 ||
-                    count==17 || count==18) continue;
+            if(!tp.find(astring))
+                pos=count;
+        }
+        if(pos==0) return false;
+        //! return at beginning of the file
+        of.clear();
+        of.seekg(0,ios::beg);
+        //! reset counter
+        count = 0;
+        while(getline(of,tp)){
+            count++;
+            if(count<pos) continue;
             cout<<count<<" "<<tp<<endl;
         }
+        of.close();
         return true;
     }
     else return false;
@@ -255,6 +309,21 @@ bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aS
     }
     return true;
 }
+
+//! -------------------------------------------------
+//! function: block Program
+//! details:  check the current date and block the
+//!           program if current date past the
+//!           tagert date
+//! -------------------------------------------------
+bool tessellator::blockProgram(QDate &targetDate)
+{
+    QDate curDate = QDate::currentDate();
+    if(curDate < targetDate)
+    return true;
+    else return false;
+}
+
 
 //! ------------------
 //! function: perform
@@ -392,7 +461,7 @@ bool tessellator::perform(const std::string& outputFileName)
     //! -----------------------------------------------------------
 
     std::string pathOfExecutable = QCoreApplication::applicationDirPath().toStdString();
-    std::string pathOfADMesh = pathOfExecutable+"\\Admesh.exe";
+    std::string pathOfADMesh = pathOfExecutable+"\\tex.exe";
     std::string absoluteOutputFilePath_H = absoluteOutputFilePath;
     for(int i=0; i<4; i++) absoluteOutputFilePath_H.pop_back();
     absoluteOutputFilePath_H += "_H.stl";
@@ -409,23 +478,25 @@ bool tessellator::perform(const std::string& outputFileName)
     QStringList arguments;
     arguments<<QString::fromStdString(absoluteOutputFilePath)<<QString("-a")<<QString::fromStdString(absoluteOutputFilePath_H);
     healingProcess->setArguments(arguments);
+    //! redirect adMesh output to ext file for futher reading
     healingProcess->setStandardOutputFile(QString::fromStdString(admeshout));
     cout<<"Mesh healing started"<<endl;
     healingProcess->start();
-  //  bool isDone = healingProcess->waitForFinished(-1);
-    QFile f(QString::fromStdString(absoluteOutputFilePath_H));
-   // bool isNotDone;
-   // if(f.exists())
-        //isDone = true;
-bool isDone=true;
-    //bool isNotDone = absoluteOutputFilePath_H.empty();
-std::string out;
-    isDone==1? out="Mesh healing completed " : out="Mesh healing failed ";
-    cout<<out<<endl;
-   // isNotDone==1? cout<<"Mesh healing completed "<<endl : cout<<"Mesh healing failed "<<endl;
+    bool isDone = healingProcess->waitForFinished(-1);
+    std::string out;
+    out = (isDone==0)? "Mesh healing failed " : "Mesh healing completed ";
 
-    if(isDone) this->readOutput(pathOfExecutable+"\\"+admeshout);
-    return isDone;
+    //! read AdMesh out and print some stats to console
+    bool isFinished=false;
+    if(isDone){
+        isFinished = this->readOutput(pathOfExecutable+"\\"+admeshout);
+        cout<<out<<endl;
+    }
+    else{
+        return isDone;
+        cout<<out<<endl;
+    }
+    return isFinished;
 
     //! -----------------------------------------------
     //! use system - redirect ADMesh output to console

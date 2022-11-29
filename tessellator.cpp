@@ -246,7 +246,15 @@ bool tessellator::readOutput(std::string& filePath){
             cout<<count<<" "<<tp<<endl;
         }
         of.close();
-        return true;
+
+
+        try {
+            fs::remove(filePath);
+        }
+        catch(const fs::filesystem_error& err) {
+            std::cout << "filesystem error: " << err.what() << '\n';
+        }
+            return true;
     }
     else return false;
 }
@@ -258,7 +266,7 @@ bool tessellator::readOutput(std::string& filePath){
 //! -------------------------------------------------
 bool tessellator::loadStepFile(const std::string& stepFilePath, TopoDS_Shape& aShape)
 {
-    cout<<"tessellator::loadStepFile()->____function called____"<<endl;
+    cout<<"loadStepFile()->____function called____"<<endl;
 
     //! -------------------
     //! preliminary checks
@@ -470,7 +478,7 @@ bool tessellator::perform(const std::string& outputFileName)
     //! -------------
     //! use QProcess
     //! -------------
-    std::string admeshout = "adout.txt";
+    std::string admeshout = "out.txt";
 
     std::shared_ptr<QProcess> healingProcess = std::make_shared<QProcess>();
     healingProcess->setProgram(QString::fromStdString(pathOfADMesh));
